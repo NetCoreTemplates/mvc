@@ -1,0 +1,127 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>@ViewData["Title"] - MyApp</title>
+    <script>
+    let colorScheme = localStorage.getItem('color-scheme')
+    setColorScheme()
+    function setColorScheme() {
+        if (colorScheme === 'dark')
+            document.querySelector('html').classList.add('dark')
+        else
+            document.querySelector('html').classList.remove('dark')
+    }
+    function toggleDarkMode() {
+        colorScheme = colorScheme === 'dark' ? 'light' : 'dark'
+        localStorage.setItem('color-scheme', colorScheme)
+        setColorScheme()        
+    }
+    </script>
+
+    <environment include="Development">
+        <link rel="stylesheet" href="~/css/app.css"/>
+        <link rel="stylesheet" href="~/css/typography.css"/>
+        <link rel="stylesheet" href="~/lib/fontawesome/css/all.css"/>
+    </environment>
+    <environment exclude="Development">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css"
+              asp-fallback-href="~/lib/fontawesome/css/all.min.css"
+              integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
+    </environment>
+</head>
+<body class="bg-white dark:bg-black dark:text-white">
+<header class="border-b border-gray-200 dark:border-gray-600 pr-3">
+    <div class="flex flex-wrap items-center">
+        <div class="absolute top-2 left-2 sm:static flex-shrink flex-grow-0">
+            <div class="cursor-pointer">
+                <a class="navbar-brand flex items-center" href="/">
+                    <span class="ml-4 hidden sm:block text-2xl font-semibold">My App</span>
+                </a>
+            </div>
+        </div>
+        <div class="flex flex-grow flex-shrink flex-nowrap justify-end items-center">
+            <nav hx-boost="true" class="relative flex flex-grow leading-6 font-semibold text-slate-700 dark:text-slate-200">
+                <ul class="flex flex-wrap items-center justify-end w-full m-0 pb-2 sm:pb-0">
+                    @{
+                        var isAuthenticated = await Html.IsAuthenticatedAsync();
+                        var isAdmin = await Html.HasRoleAsync("Admin");
+
+                        async Task RenderNavLink(string controller, string action, string childContent)
+                        {
+                            <li class="relative flex flex-wrap just-fu-start m-0">
+                                <a asp-controller="@controller" asp-action="@action"
+                                   class="@Html.ClassNames("p-4 flex items-center justify-start mw-full hover:text-sky-500 dark:hover:text-sky-400", Html.MatchesPath(controller) ? "text-blue-700 dark:text-blue-300" : "")">
+                                    @Html.Raw(childContent)
+                                </a>
+                            </li>
+                        }
+
+                        async Task RenderLinkButton(string controller, string action, string childContent, string? cls = null)
+                        {
+                            <li class="relative flex flex-wrap just-fu-start m-0">
+                                <a asp-controller="@controller" asp-action="@action" class="@(cls ?? Css.SecondaryButton)">
+                                    @Html.Raw(childContent)
+                                </a>
+                            </li>
+                        }
+
+                        await RenderNavLink("Home", "Markdown", "Markdown");
+                        await RenderNavLink("Home", "Privacy", "Privacy");
+                        await RenderNavLink("Home", "RequiresAuth", "Requires Auth");
+                        await RenderNavLink("Home", "RequiresRole", "Requires Role");
+                        await RenderNavLink("Manage", "Index", "Account");
+
+                        if (!isAuthenticated)
+                            await RenderLinkButton("Account", "Login", "Sign In");
+                        if (!isAuthenticated)
+                            await RenderLinkButton("Account", "Register", "Sign Up", $"mx-2 {Css.PrimaryButton}");
+                    }
+                    <li class="relative flex flex-wrap just-fu-start m-0">
+                        <span class="dark-mode cursor-pointer" onclick="toggleDarkMode()">
+                            <i class="fas fa-adjust"></i>
+                        </span>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+    </div>
+</header>
+
+<div class="min-h-screen">
+    <partial name="_CookieConsentPartial"/>
+    <main role="main" class="pb-3">
+        @RenderBody()
+    </main>
+</div>
+
+<footer class="bg-accent-1 dark:bg-black border-t border-accent-2 dark:border-gray-600">
+    <div class="container mx-auto px-5">
+        <div class="py-28 flex flex-col lg:flex-row items-center">
+            <h3 class="text-4xl lg:text-6xl font-bold tracking-tighter leading-tight text-center lg:text-left mb-10 lg:mb-0 lg:pr-4 lg:w-1/2">A ServiceStack Project</h3>
+            <div class="flex flex-col lg:flex-row justify-center items-center lg:pl-4 lg:w-1/2">
+                <a href="https://docs.servicestack.net" class="mx-3 bg-black dark:bg-gray-700 hover:bg-white dark:hover:bg-gray-200 hover:text-black border border-black text-white font-bold py-3 px-12 lg:px-8 duration-200 transition-colors mb-6 lg:mb-0">Read Documentation</a>
+                <a href="https://github.com/NetCoreTemplates/mvc-tailwind" class="mx-3 font-bold hover:underline">View on GitHub</a>
+            </div>
+        </div>
+    </div>
+</footer>
+
+<environment include="Development">
+    <script src="~/lib/jquery/dist/jquery.js"></script>
+</environment>
+<environment exclude="Development">
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js"
+            asp-fallback-src="~/lib/jquery/dist/jquery.min.js"
+            asp-fallback-test="window.jQuery"
+            crossorigin="anonymous"
+            integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=">
+        </script>
+</environment>
+<script src="~/js/site.js" asp-append-version="true"></script>
+<script src="/js/ss-utils.js"></script>
+
+@await RenderSectionAsync("Scripts", required: false)
+</body>
+</html>

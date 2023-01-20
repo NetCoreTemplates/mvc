@@ -1,0 +1,102 @@
+@{
+    var inputCss = $"txtName {Css.InputText} m-2 inline-block max-w-[220px]";
+}
+
+<div class="mt-16 flex justify-evenly">
+    <div>
+        <h3 class="@Css.H3">Public APIs and MVC Views</h3>
+        
+        <ul class="list-disc ml-8">
+            <li><a class="@Css.Link" href="/Home/Privacy">/Home/Privacy</a> - Privacy MVC Page</li>
+            <li><a class="@Css.Link" href="/Account/Login">/Account/Login</a> - Sign In MVC Page</li>
+            <li><a class="@Css.Link" href="/Account/Register">/Account/Register</a> - Register User MVC Page</li>
+        </ul>
+        
+        <form class="mt-8" action="/hello">
+            <h4 class="ml-16 text-lg font-semibold">/hello ServiceStack API</h4>
+            <label>Name: </label>
+            <input type="text" class="@inputCss" name="Name">
+            <span class="apiurl @Css.Link"></span>
+            <div class="result ml-16 text-lg text-green-700 font-semibold"></div>
+        </form>
+    </div>
+    <div>
+        <h3 class="@Css.H3">Secure APIs and MVC Views</h3>
+        
+        <ul class="list-disc ml-8">
+            <li><a class="@Css.Link" href="/Home/RequiresAuth">/Home/RequiresAuth</a> - Requires Authentication MVC Page</li>
+            <li><a class="@Css.Link" href="/Home/RequiresRole">/Home/RequiresRole</a> - Requires <b>Manager</b> Role MVC Page</li>
+            <li><a class="@Css.Link" href="/Home/RequiresAdmin">/Home/RequiresAdmin</a> - Requires <b>Admin</b> User MVC Page</li>
+        </ul>
+        
+        <form class="mt-8" action="/requiresauth">
+            <h4 class="ml-16 text-lg font-semibold">/requiresauth ServiceStack API</h4>
+            <label>Name: </label>
+            <input type="text" class="@inputCss" name="Name">
+            <span class="apiurl @Css.Link"></span>
+            <div class="result ml-16 text-lg text-green-700 font-semibold"></div>
+        </form>
+        
+        <form class="mt-8" action="/requiresrole">
+            <h4 class="ml-16 text-lg font-semibold">/requiresrole ServiceStack API</h4>
+            <label>Name: </label>
+            <input type="text" class="@inputCss" name="Name">
+            <span class="apiurl @Css.Link"></span>
+            <div class="result ml-16 text-lg text-green-700 font-semibold"></div>            
+        </form>
+        
+        <form class="mt-8" action="/requiresadmin">
+            <h4 class="ml-16 text-lg font-semibold">/requiresadmin ServiceStack API</h4>
+            <label>Name: </label>
+            <input type="text" class="@inputCss" name="Name">
+            <span class="apiurl @Css.Link"></span>
+            <div class="result ml-16 text-lg text-green-700 font-semibold"></div>            
+        </form>
+        
+        <h4 class="mt-16 mb-4 text-lg font-semibold">Admin access using <a href="https://docs.servicestack.net/debugging#authsecret">AdminAuthSecret</a></h4>
+                
+        <ul class="list-disc ml-8">
+            <li>
+                <a class="@Css.LinkUnderline" href="/Home/RequiresAuth?authsecret=adm1nSecret">RequiresAuth</a> 
+                <a class="@Css.LinkUnderline" href="/Home/RequiresRole?authsecret=adm1nSecret">RequiresRole</a> 
+                <a class="@Css.LinkUnderline" href="/Home/RequiresAdmin?authsecret=adm1nSecret">RequiresAdmin</a> 
+                MVC Pages 
+            </li>
+            <li>
+                <a class="@Css.LinkUnderline" href="/requiresauth/Admin?authsecret=adm1nSecret">/requiresauth</a> 
+                <a class="@Css.LinkUnderline" href="/requiresrole/Admin?authsecret=adm1nSecret">/requiresrole</a> 
+                <a class="@Css.LinkUnderline" href="/requiresadmin/Admin?authsecret=adm1nSecret">/requiresadmin</a> 
+                ServiceStack APIs 
+            </li>
+        </ul>
+    </div>
+</div>
+
+<script>
+window.addEventListener('load', function() {
+    function callApi() {
+        const $result = $(this).parent().find('.result')
+        const $apiurl = $(this).parent().find('.apiurl')
+        if (this.value) {
+            const apiUrl =  $(this).parent().attr('action') + "/" + encodeURIComponent(this.value)
+            $apiurl.html('<a class="whitespace-nowrap" href="' + apiUrl + '">' + apiUrl.replace(/%20/g,' ') + '</a>')
+            $.getJSON(apiUrl)
+                .then(function (r) {
+                    $result.html(r.result)
+                }).fail(function (jq, jqStatus, statusText) {
+                    let err, errMsg = "The request failed with: " + (statusText || jqStatus)
+                    try {
+                        err = $.ss.parseResponseStatus(jq.responseText)
+                        errMsg = err.message || errMsg
+                    } catch (e) {
+                    }
+                    $result.html(`<div class="text-danger">${errMsg}</div>`)
+                })
+        } else {
+            $result.add($apiurl).html("")
+        }
+    }
+
+    $(".txtName").keyup(callApi).each(callApi)
+})
+</script>
