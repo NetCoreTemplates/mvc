@@ -9,6 +9,9 @@ coverage/
 Migrations/
 lib/
 package-lock.json
+*.sqlite
+*.sqlite-shm
+*.sqlite-wal
 
 # User-specific files
 *.suo

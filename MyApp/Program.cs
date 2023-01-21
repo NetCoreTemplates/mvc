@@ -29,8 +29,10 @@ services.Configure<CookiePolicyOptions>(options =>
 //   $ dotnet ef database update
 services.AddDbContext<ApplicationDbContext>(options => {
     //Uncomment to use SQL Server instead
-    //options.UseSqlServer(config.GetConnectionString("DefaultConnection"));
-    options.UseSqlite(SqliteInMemoryDatabase.Connection);
+    //options.UseSqlServer(config.GetConnectionString("SqlServerExpress"));
+    //Uncomment to use SQLite In Memory instead
+    //options.UseSqlite(SqliteInMemoryDatabase.Connection);
+    options.UseSqlite(config.GetConnectionString("SqliteConnection"));
 });
 
 services.AddIdentity<ApplicationUser, IdentityRole>(options => {
