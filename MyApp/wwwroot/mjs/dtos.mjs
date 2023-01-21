@@ -1,5 +1,5 @@
 /* Options:
-Date: 2023-01-20 16:40:20
+Date: 2023-01-21 12:06:04
 Version: 6.51
 Tip: To override a DTO option, remove "//" prefix before updating
 BaseUrl: https://localhost:5001
@@ -13,6 +13,39 @@ BaseUrl: https://localhost:5001
 */
 
 "use strict";
+/** @typedef {'Mr'|'Mrs'|'Miss'} */
+export var Title;
+(function (Title) {
+    Title["Mr"] = "Mr";
+    Title["Mrs"] = "Mrs";
+    Title["Miss"] = "Miss";
+})(Title || (Title = {}));
+/** @typedef {'Action'|'Adventure'|'Comedy'|'Drama'} */
+export var FilmGenre;
+(function (FilmGenre) {
+    FilmGenre["Action"] = "Action";
+    FilmGenre["Adventure"] = "Adventure";
+    FilmGenre["Comedy"] = "Comedy";
+    FilmGenre["Drama"] = "Drama";
+})(FilmGenre || (FilmGenre = {}));
+export class Contact {
+    /** @param {{id?:number,userAuthId?:number,title?:Title,name?:string,color?:string,favoriteGenre?:FilmGenre,age?:number}} [init] */
+    constructor(init) { Object.assign(this, init); }
+    /** @type {number} */
+    id;
+    /** @type {number} */
+    userAuthId;
+    /** @type {Title} */
+    title;
+    /** @type {?string} */
+    name;
+    /** @type {?string} */
+    color;
+    /** @type {?FilmGenre} */
+    favoriteGenre;
+    /** @type {number} */
+    age;
+}
 export class ResponseError {
     /** @param {{errorCode?:string,fieldName?:string,message?:string,meta?:{ [index: string]: string; }}} [init] */
     constructor(init) { Object.assign(this, init); }
@@ -38,6 +71,28 @@ export class ResponseStatus {
     errors;
     /** @type {{ [index: string]: string; }} */
     meta;
+}
+export class GetContactsResponse {
+    /** @param {{results?:Contact[],responseStatus?:ResponseStatus}} [init] */
+    constructor(init) { Object.assign(this, init); }
+    /** @type {Contact[]} */
+    results;
+    /** @type {?ResponseStatus} */
+    responseStatus;
+}
+export class CreateContactResponse {
+    /** @param {{result?:Contact,responseStatus?:ResponseStatus}} [init] */
+    constructor(init) { Object.assign(this, init); }
+    /** @type {?Contact} */
+    result;
+    /** @type {?ResponseStatus} */
+    responseStatus;
+}
+export class UpdateContactResponse {
+    /** @param {{responseStatus?:ResponseStatus}} [init] */
+    constructor(init) { Object.assign(this, init); }
+    /** @type {?ResponseStatus} */
+    responseStatus;
 }
 export class HelloResponse {
     /** @param {{result?:string}} [init] */
@@ -114,6 +169,62 @@ export class UnAssignRolesResponse {
     meta;
     /** @type {ResponseStatus} */
     responseStatus;
+}
+export class GetContacts {
+    /** @param {{id?:number}} [init] */
+    constructor(init) { Object.assign(this, init); }
+    /** @type {?number} */
+    id;
+    getTypeName() { return 'GetContacts'; };
+    getMethod() { return 'GET'; };
+    createResponse() { return new GetContactsResponse(); };
+}
+export class CreateContact {
+    /** @param {{title?:Title,name?:string,color?:string,favoriteGenre?:FilmGenre,age?:number,agree?:boolean}} [init] */
+    constructor(init) { Object.assign(this, init); }
+    /** @type {Title} */
+    title;
+    /** @type {string} */
+    name;
+    /** @type {?string} */
+    color;
+    /** @type {FilmGenre} */
+    favoriteGenre;
+    /** @type {number} */
+    age;
+    /** @type {boolean} */
+    agree;
+    getTypeName() { return 'CreateContact'; };
+    getMethod() { return 'POST'; };
+    createResponse() { return new CreateContactResponse(); };
+}
+export class DeleteContact {
+    /** @param {{id?:number}} [init] */
+    constructor(init) { Object.assign(this, init); }
+    /** @type {number} */
+    id;
+    getTypeName() { return 'DeleteContact'; };
+    getMethod() { return 'DELETE'; };
+    createResponse() { };
+}
+export class UpdateContact {
+    /** @param {{id?:number,title?:Title,name?:string,color?:string,favoriteGenre?:FilmGenre,age?:number}} [init] */
+    constructor(init) { Object.assign(this, init); }
+    /** @type {number} */
+    id;
+    /** @type {?Title} */
+    title;
+    /** @type {?string} */
+    name;
+    /** @type {?string} */
+    color;
+    /** @type {?FilmGenre} */
+    favoriteGenre;
+    /** @type {?number} */
+    age;
+    getTypeName() { return 'UpdateContact'; };
+    getMethod() { return 'PUT'; };
+    createResponse() { return new UpdateContactResponse(); };
 }
 export class Hello {
     /** @param {{name?:string}} [init] */

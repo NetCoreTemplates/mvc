@@ -137,8 +137,5 @@ public static class AppExtensions
         services.DbContextExec<ApplicationDbContext,T>(ctx => {
             ctx.Database.OpenConnection(); return ctx.Database.GetDbConnection(); }, fn);
 }
-    
+
 // Add any additional metadata properties you want to store in the Users Typed Session
-public class CustomUserSession : AuthUserSession
-{
-}

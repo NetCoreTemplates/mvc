@@ -23,13 +23,25 @@
     <environment include="Development">
         <link rel="stylesheet" href="~/css/app.css"/>
         <link rel="stylesheet" href="~/css/typography.css"/>
-        <link rel="stylesheet" href="~/lib/fontawesome/css/all.css"/>
+        <link rel="stylesheet" href="~/lib/css/font-awesome/css/all.css"/>
     </environment>
     <environment exclude="Development">
-        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css"
-              asp-fallback-href="~/lib/fontawesome/css/all.min.css"
-              integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
+        <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.15.4/css/all.css"
+              asp-fallback-href="~/lib/css/font-awesome/css/all.min.css"
+              crossorigin="anonymous">
     </environment>
+
+    @if (Context.Request.Headers.UserAgent.Any(x => x.Contains("Safari") && !x.Contains("Chrome")))
+    {
+        <script async src="https://ga.jspm.io/npm:es-module-shims@1.6.3/dist/es-module-shims.js"></script>
+    }
+    @Html.ImportMap(new()
+    {
+        ["vue"]                  = ("/lib/mjs/vue.mjs",                 "https://unpkg.com/vue@3.2.45/dist/vue.esm-browser.prod.js"),
+        ["@servicestack/client"] = ("/lib/mjs/servicestack-client.mjs", "https://unpkg.com/@servicestack/client@1.2.6/dist/servicestack-client.min.mjs"),
+        ["@servicestack/vue"]    = ("/lib/mjs/servicestack-vue.mjs",    "https://unpkg.com/@servicestack/vue@3.0.11/dist/servicestack-vue.min.mjs")
+    })
+    
 </head>
 <body class="bg-white dark:bg-black dark:text-white">
 <header class="border-b border-gray-200 dark:border-gray-600 pr-3">
@@ -37,7 +49,8 @@
         <div class="absolute top-2 left-2 sm:static flex-shrink flex-grow-0">
             <div class="cursor-pointer">
                 <a class="navbar-brand flex items-center" href="/">
-                    <span class="ml-4 hidden sm:block text-2xl font-semibold">My App</span>
+                    <img class="ml-2 w-12 h-12" src="/img/logo.svg" alt="MyApp logo">
+                    <span class="hidden sm:block text-2xl font-semibold">My App</span>
                 </a>
             </div>
         </div>
@@ -46,7 +59,7 @@
                 <ul class="flex flex-wrap items-center justify-end w-full m-0 pb-2 sm:pb-0">
                     @{
                         var isAuthenticated = await Html.IsAuthenticatedAsync();
-                        var isAdmin = await Html.HasRoleAsync("Admin");
+                        //var isAdmin = await Html.HasRoleAsync("Admin");
 
                         async Task RenderNavLink(string controller, string action, string childContent)
                         {
@@ -67,10 +80,10 @@
                             </li>
                         }
 
-                        await RenderNavLink("Home", "Markdown", "Markdown");
+                        await RenderNavLink("Blog", "Index", "Blog");
+                        await RenderNavLink("Home", "Contacts", "Contacts");
+                        await RenderNavLink("Home", "AuthExamples", "Auth Examples");
                         await RenderNavLink("Home", "Privacy", "Privacy");
-                        await RenderNavLink("Home", "RequiresAuth", "Requires Auth");
-                        await RenderNavLink("Home", "RequiresRole", "Requires Role");
                         await RenderNavLink("Manage", "Index", "Account");
 
                         if (!isAuthenticated)
@@ -109,18 +122,17 @@
 </footer>
 
 <environment include="Development">
-    <script src="~/lib/jquery/dist/jquery.js"></script>
+    <script src="~/lib/js/jquery.js"></script>
 </environment>
 <environment exclude="Development">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js"
-            asp-fallback-src="~/lib/jquery/dist/jquery.min.js"
+            asp-fallback-src="~/lib/js/jquery.min.js"
             asp-fallback-test="window.jQuery"
             crossorigin="anonymous"
             integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=">
-        </script>
+    </script>
 </environment>
 <script src="~/js/site.js" asp-append-version="true"></script>
-<script src="/js/ss-utils.js"></script>
 
 @await RenderSectionAsync("Scripts", required: false)
 </body>

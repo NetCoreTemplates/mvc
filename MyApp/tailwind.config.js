@@ -1,5 +1,5 @@
 module.exports = {
-  content: ["./wwwroot/**/*.{html,js,mjs,razor,cshtml}","./Views/**/*.{cshtml,razor}","./Css.cs"],
+  content: ["./wwwroot/**/*.{html,js,md,mjs,razor,cshtml}","./Views/**/*.{cshtml,razor}","./Css.cs"],
   darkMode: 'class',
   theme: {
     extend: {

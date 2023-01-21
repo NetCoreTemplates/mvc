@@ -1,55 +1,56 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using MyApp.Models;
 using Microsoft.AspNetCore.Authorization;
-using ServiceStack;
+using MyApp.ServiceInterface;
 using ServiceStack.Mvc;
 
-namespace MyApp.Controllers
+namespace MyApp.Controllers;
+
+public class HomeController : ServiceStackController
 {
-    public class HomeController : ServiceStackController
+    public IActionResult Index()
     {
-        public IActionResult Index()
-        {
-            return View(SessionAs<CustomUserSession>());
-        }
+        return View(SessionAs<CustomUserSession>());
+    }
 
-        public IActionResult Markdown()
-        {
-            return View();
-        }
+    [Authorize]
+    public IActionResult Contacts()
+    {
+        return View();
+    }
 
-        public IActionResult Privacy()
-        {
-            return View();
-        }
+    public IActionResult AuthExamples()
+    {
+        return View(SessionAs<CustomUserSession>());
+    }
 
-        [Authorize]
-        public IActionResult RequiresAuth()
-        {
-            return View();
-        }
+    public IActionResult Privacy()
+    {
+        return View();
+    }
 
-        [Authorize(Roles = "Manager")]
-        public IActionResult RequiresRole()
-        {
-            return View();
-        }
+    [Authorize]
+    public IActionResult RequiresAuth()
+    {
+        return View();
+    }
 
-        [Authorize(Roles = "Admin")]
-        public IActionResult RequiresAdmin()
-        {
-            return View();
-        }
+    [Authorize(Roles = "Manager")]
+    public IActionResult RequiresRole()
+    {
+        return View();
+    }
 
-        [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
-        public IActionResult Error()
-        {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
-        }
+    [Authorize(Roles = "Admin")]
+    public IActionResult RequiresAdmin()
+    {
+        return View();
+    }
+
+    [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
+    public IActionResult Error()
+    {
+        return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
     }
 }

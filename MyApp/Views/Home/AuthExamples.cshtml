@@ -1,6 +1,45 @@
+@model MyApp.ServiceInterface.CustomUserSession
 @{
     var inputCss = $"txtName {Css.InputText} m-2 inline-block max-w-[220px]";
 }
+
+<div class="mt-8">
+    <div class="mt-3 mx-auto max-w-lg text-center">
+        <h1 class="@Css.H1">
+            @ViewData["Title"]
+        </h1>
+        <p class="my-2">
+            Learn about <a class="@Css.Link" href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.
+        </p>
+    </div>
+</div>
+
+<div class="flex">
+    @if (!Model.IsAuthenticated)
+    {
+        <div class="mx-auto">
+            <a asp-area="" asp-controller="Account" asp-action="Login" class="@Html.ClassNames(Css.PrimaryButton, "my-4")">
+                You are not yet authenticated, please sign in.
+            </a>
+        </div>
+    }
+    else
+    {
+        <div class="mx-auto">
+            <form asp-area="" asp-controller="Account" asp-action="Logout" method="post">
+                <div class="flex items-center my-4">
+                    <img src="@Model.GetProfileUrl()" class="w-8 h-8 mr-2">
+                    <div>Hi @Model.DisplayName!</div>
+                </div>
+                <div>
+                    <button type="submit" class="@Css.SecondaryButton">Sign Out</button>
+                </div>
+            </form>
+        </div>
+    }
+</div>
+
+
 
 <div class="mt-16 flex justify-evenly">
     <div>
@@ -72,31 +111,33 @@
     </div>
 </div>
 
-<script>
-window.addEventListener('load', function() {
-    function callApi() {
-        const $result = $(this).parent().find('.result')
-        const $apiurl = $(this).parent().find('.apiurl')
-        if (this.value) {
-            const apiUrl =  $(this).parent().attr('action') + "/" + encodeURIComponent(this.value)
-            $apiurl.html('<a class="whitespace-nowrap" href="' + apiUrl + '">' + apiUrl.replace(/%20/g,' ') + '</a>')
-            $.getJSON(apiUrl)
-                .then(function (r) {
-                    $result.html(r.result)
-                }).fail(function (jq, jqStatus, statusText) {
-                    let err, errMsg = "The request failed with: " + (statusText || jqStatus)
-                    try {
-                        err = $.ss.parseResponseStatus(jq.responseText)
-                        errMsg = err.message || errMsg
-                    } catch (e) {
-                    }
-                    $result.html(`<div class="text-danger">${errMsg}</div>`)
-                })
-        } else {
-            $result.add($apiurl).html("")
-        }
-    }
+@section Scripts {
+<script type="module">
+import { parseResponseStatus } from "@@servicestack/client"
 
-    $(".txtName").keyup(callApi).each(callApi)
-})
+function callApi() {
+    const $result = $(this).parent().find('.result')
+    const $apiurl = $(this).parent().find('.apiurl')
+    if (this.value) {
+        const apiUrl =  $(this).parent().attr('action') + "/" + encodeURIComponent(this.value)
+        $apiurl.html(`<a class="whitespace-nowrap" href="${apiUrl}">${apiUrl.replace(/%20/g,' ')}</a>`)
+        $.getJSON(apiUrl)
+            .then(function (r) {
+                $result.html(r.result)
+            }).fail(function (jq, jqStatus, statusText) {
+                let err, errMsg = "The request failed with: " + (statusText || jqStatus)
+                try {
+                    err = parseResponseStatus(jq.responseText)
+                    errMsg = err.message || errMsg
+                } catch (e) {
+                }
+                $result.html(`<div class="text-danger">${errMsg}</div>`)
+            })
+    } else {
+        $result.add($apiurl).html("")
+    }
+}
+
+$(".txtName").keyup(callApi).each(callApi)
 </script>
+}
