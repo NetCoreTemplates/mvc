@@ -108,6 +108,14 @@ services.AddTransient<IExternalLoginAuthInfoProvider>(c =>
 
 var app = builder.Build();
 
+// TODO: Move EF Migrations to CI
+using (var scope = app.Services.CreateScope())
+{
+    var context = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
+    if (context.Database.GetPendingMigrations().Any())
+        context.Database.Migrate();
+}
+
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
