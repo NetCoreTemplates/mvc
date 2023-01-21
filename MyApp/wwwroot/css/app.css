@@ -1882,6 +1882,14 @@ select{
   padding-bottom: 0.75rem;
 }
 
+.pl-1 {
+  padding-left: 0.25rem;
+}
+
+.pl-2 {
+  padding-left: 0.5rem;
+}
+
 .text-left {
   text-align: left;
 }
@@ -2617,6 +2625,10 @@ select{
     position: static;
   }
 
+  .sm\:left-2 {
+    left: 0.5rem;
+  }
+
   .sm\:col-span-3 {
     grid-column: span 3 / span 3;
   }
@@ -2642,6 +2654,10 @@ select{
 
   .sm\:mt-4 {
     margin-top: 1rem;
+  }
+
+  .sm\:ml-2 {
+    margin-left: 0.5rem;
   }
 
   .sm\:block {
@@ -2720,6 +2736,14 @@ select{
     padding-bottom: 0px;
   }
 
+  .sm\:pl-0 {
+    padding-left: 0px;
+  }
+
+  .sm\:pl-16 {
+    padding-left: 4rem;
+  }
+
   .sm\:text-4xl {
     font-size: 2.25rem;
     line-height: 2.5rem;
@@ -2733,6 +2757,12 @@ select{
   .sm\:text-lg {
     font-size: 1.125rem;
     line-height: 1.75rem;
+  }
+
+  .sm\:shadow {
+    --tw-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
+    --tw-shadow-colored: 0 1px 3px 0 var(--tw-shadow-color), 0 1px 2px -1px var(--tw-shadow-color);
+    box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
   }
 
   .sm\:duration-700 {

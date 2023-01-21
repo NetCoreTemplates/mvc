@@ -155,7 +155,7 @@ $ npm run dtos
 That can be referenced instead to unlock your IDE's static analysis type-checking and intelli-sense benefits during development:
 
 ```js
-import { Hello } from '/js/dtos.mjs'
+import { Hello } from '/mjs/dtos.mjs'
 client.api(new Hello({ name }))
 ```
 

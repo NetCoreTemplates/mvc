@@ -87,8 +87,8 @@ public static class ContactServiceExtensions
         return session.UserAuthId;
     }
 
-    public static bool IsValidColor(this string color) => !string.IsNullOrEmpty(color) && 
-      (color.FirstCharEquals('#')
-          ? int.TryParse(color.Substring(1), NumberStyles.HexNumber, CultureInfo.InvariantCulture, out _)
-          : Color.FromName(color).IsKnownColor);
+    public static bool IsValidColor(this string? color) => !string.IsNullOrEmpty(color) && 
+       (color.FirstCharEquals('#')
+           ? int.TryParse(color.Substring(1), NumberStyles.HexNumber, CultureInfo.InvariantCulture, out _)
+           : Color.FromName(color).IsKnownColor);
 }

@@ -1,13 +1,13 @@
 ﻿using Funq;
-using MyApp.Data;
-using MyApp.Models;
-using MyApp.Services;
-using MyApp.ServiceInterface;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.AspNetCore.Identity;
 using ServiceStack;
 using ServiceStack.Auth;
 using ServiceStack.Configuration;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.AspNetCore.Identity;
+using MyApp.Data;
+using MyApp.Models;
+using MyApp.ServiceInterface;
+using MyApp.ServiceModel.Types;
 
 [assembly: HostingStartup(typeof(MyApp.AppHost))]
 
@@ -66,6 +66,7 @@ public class AppHost : AppHostBase, IHostingStartup
         //initializing custom roles 
         var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
         var userManager = scope.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>();
+        var appDb = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
         string[] roleNames = { "Admin", "Manager" };
 
         void assertResult(IdentityResult result)
