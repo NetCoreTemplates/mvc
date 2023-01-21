@@ -4,9 +4,11 @@
     <TargetFramework>net6.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <AspNetCoreHostingModel>InProcess</AspNetCoreHostingModel>
+    <TypeScriptCompileBlocked>true</TypeScriptCompileBlocked>
   </PropertyGroup>
   <ItemGroup>
     <Using Include="MyApp" />
+    <Using Include="MyApp.ServiceModel" />
   </ItemGroup>
 
   <ItemGroup>
