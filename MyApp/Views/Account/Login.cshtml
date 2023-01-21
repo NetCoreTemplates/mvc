@@ -169,11 +169,11 @@ else
 
 @section Scripts {
 <script type="module">
-import { bindHandlers } from "@@servicestack/client"
+import { $1, bindHandlers } from "@@servicestack/client"
 bindHandlers({
-   switchUser: function(u) {
-       $("#Email").val(u)
-       $("#Password").val('p@@55wOrd')
+   switchUser(u) {
+       $1("#Email").value = u
+       $1("#Password").value = 'p@@55wOrd'
    },
 })  
 </script>
