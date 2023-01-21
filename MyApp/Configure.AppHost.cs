@@ -43,6 +43,9 @@ public class AppHost : AppHostBase, IHostingStartup
                             TimeSpan.FromMinutes(5), // return cached results before refreshing cache from db every 5 mins
                             () => ApplicationServices.DbExec(db => db.GetIdentityUserById<ApplicationUser>(session.Id)));
 
+                        if (user == null)
+                            throw HttpError.Unauthorized($"User '{session.Id}' not found");
+                        
                         session.Email ??= user.Email;
                         session.FirstName ??= user.FirstName;
                         session.LastName ??= user.LastName;
@@ -56,16 +59,10 @@ public class AppHost : AppHostBase, IHostingStartup
                     }
                 }, 
             }));
-
-        
-        AddSeedUsers(base.App).Wait();
     }
-        
-    private async Task AddSeedUsers(IApplicationBuilder app)
-    {
-        var scopeFactory = app.ApplicationServices.GetRequiredService<IServiceScopeFactory>();
 
-        using var scope = scopeFactory.CreateScope();
+    public static async Task AddSeedUsersAsync(IServiceScope scope)
+    {
         //initializing custom roles 
         var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole>>();
         var userManager = scope.ServiceProvider.GetRequiredService<UserManager<ApplicationUser>>();

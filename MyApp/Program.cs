@@ -27,8 +27,11 @@ services.Configure<CookiePolicyOptions>(options =>
 // To create Identity SQL Server database, change "ConnectionStrings" in appsettings.json
 //   $ dotnet ef migrations add CreateMyAppIdentitySchema
 //   $ dotnet ef database update
-services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseSqlServer(config.GetConnectionString("DefaultConnection")));
+services.AddDbContext<ApplicationDbContext>(options => {
+    //Uncomment to use SQL Server instead
+    //options.UseSqlServer(config.GetConnectionString("DefaultConnection"));
+    options.UseSqlite(SqliteInMemoryDatabase.Connection);
+});
 
 services.AddIdentity<ApplicationUser, IdentityRole>(options => {
         options.User.AllowedUserNameCharacters = null;
@@ -114,7 +117,10 @@ using (var scope = app.Services.CreateScope())
     var context = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
     if (context.Database.GetPendingMigrations().Any())
         context.Database.Migrate();
+
+    AppHost.AddSeedUsersAsync(scope).GetAwaiter().GetResult();
 }
+
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
