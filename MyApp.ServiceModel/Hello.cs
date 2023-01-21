@@ -1,56 +1,54 @@
 ﻿using ServiceStack;
 
-namespace MyApp.ServiceModel
+namespace MyApp.ServiceModel;
+
+[Route("/hello")]
+[Route("/hello/{Name}")]
+public class Hello : IReturn<HelloResponse>
 {
-    [Route("/hello")]
-    [Route("/hello/{Name}")]
-    public class Hello : IReturn<HelloResponse>
-    {
-        public string Name { get; set; }
-    }
+    public string? Name { get; set; }
+}
 
-    public class HelloResponse
-    {
-        public string Result { get; set; }
-    }
+public class HelloResponse
+{
+    public string Result { get; set; } = default!;
+}
     
-    [ValidateIsAuthenticated]
-    [Route("/requiresauth")]
-    [Route("/requiresauth/{Name}")]
-    public class RequiresAuth : IReturn<RequiresAuthResponse>
-    {
-        public string Name { get; set; }
-    }
+[ValidateIsAuthenticated]
+[Route("/requiresauth")]
+[Route("/requiresauth/{Name}")]
+public class RequiresAuth : IReturn<RequiresAuthResponse>
+{
+    public string? Name { get; set; }
+}
 
-    public class RequiresAuthResponse
-    {
-        public string Result { get; set; }
-    }
+public class RequiresAuthResponse
+{
+    public string Result { get; set; } = default!;
+}
 
-    [ValidateHasRole(AppRoles.Manager)]
-    [Route("/requiresrole")]
-    [Route("/requiresrole/{Name}")]
-    public class RequiresRole : IReturn<RequiresRoleResponse>
-    {
-        public string Name { get; set; }
-    }
+[ValidateHasRole(AppRoles.Manager)]
+[Route("/requiresrole")]
+[Route("/requiresrole/{Name}")]
+public class RequiresRole : IReturn<RequiresRoleResponse>
+{
+    public string? Name { get; set; }
+}
 
-    public class RequiresRoleResponse
-    {
-        public string Result { get; set; }
-    }
+public class RequiresRoleResponse
+{
+    public string Result { get; set; } = default!;
+}
 
-    [ValidateIsAdmin]
-    [Route("/requiresadmin")]
-    [Route("/requiresadmin/{Name}")]
-    public class RequiresAdmin : IReturn<RequiresAdminResponse>
-    {
-        public string Name { get; set; }
-    }
+[ValidateIsAdmin]
+[Route("/requiresadmin")]
+[Route("/requiresadmin/{Name}")]
+public class RequiresAdmin : IReturn<RequiresAdminResponse>
+{
+    public string? Name { get; set; }
+}
 
-    public class RequiresAdminResponse
-    {
-        public string Result { get; set; }
-    }
-
+public class RequiresAdminResponse
+{
+    public string Result { get; set; } = default!;
 }

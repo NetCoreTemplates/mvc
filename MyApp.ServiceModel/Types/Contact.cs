@@ -5,7 +5,7 @@ namespace MyApp.ServiceModel.Types;
 public class Contact 
 {
     public int Id { get; set; }
-    public int UserAuthId { get; set; }
+    public string UserAuthId { get; set; } = default!;
     public Title Title { get; set; }
     public string? Name { get; set; }
     public string? Color { get; set; }

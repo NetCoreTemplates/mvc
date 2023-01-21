@@ -1,15 +1,14 @@
 #nullable enable
 using Microsoft.AspNetCore.Mvc;
 using ServiceStack.Mvc;
-using IHostingEnvironment = Microsoft.AspNetCore.Hosting.IHostingEnvironment;
 
 namespace MyApp.Controllers;
 
 public class BlogController : ServiceStackController
 {
     private readonly BlogPosts _blogPosts;
-    private IHostingEnvironment _env;
-    public BlogController(BlogPosts blogPosts, IHostingEnvironment env)
+    private readonly IWebHostEnvironment _env;
+    public BlogController(BlogPosts blogPosts, IWebHostEnvironment env)
     {
         _blogPosts = blogPosts;
         _env = env;

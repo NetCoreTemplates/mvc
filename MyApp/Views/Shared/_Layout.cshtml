@@ -71,7 +71,7 @@
                             </li>
                         }
 
-                        async Task RenderLinkButton(string controller, string action, string childContent, string? cls = null)
+                        async Task RenderLinkButton(string controller, string action, string childContent, string cls = null)
                         {
                             <li class="relative flex flex-wrap just-fu-start m-0">
                                 <a asp-controller="@controller" asp-action="@action" class="@(cls ?? Css.SecondaryButton)">

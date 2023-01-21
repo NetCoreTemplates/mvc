@@ -1,4 +1,3 @@
-using System;
 using MyApp.ServiceModel.Types;
 
 namespace MyApp.ServiceInterface.Data;
@@ -9,7 +8,7 @@ namespace MyApp.ServiceInterface.Data;
 public class Contact
 {
     public int Id { get; set; }
-    public string UserAuthId { get; set; }
+    public string UserAuthId { get; set; } = default!;
     public Title Title { get; set; }
     public string? Name { get; set; }
     public string? Color { get; set; }
