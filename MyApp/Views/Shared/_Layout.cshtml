@@ -21,8 +21,6 @@
     </script>
 
     <environment include="Development">
-        <link rel="stylesheet" href="~/css/app.css"/>
-        <link rel="stylesheet" href="~/css/typography.css"/>
         <link rel="stylesheet" href="~/lib/css/font-awesome/css/all.css"/>
     </environment>
     <environment exclude="Development">
@@ -30,6 +28,8 @@
               asp-fallback-href="~/lib/css/font-awesome/css/all.min.css"
               crossorigin="anonymous">
     </environment>
+    <link rel="stylesheet" href="/css/app.css"/>
+    <link rel="stylesheet" href="/css/typography.css"/>
 
     @if (Context.Request.Headers.UserAgent.Any(x => x.Contains("Safari") && !x.Contains("Chrome")))
     {
