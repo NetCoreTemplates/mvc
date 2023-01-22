@@ -22,9 +22,8 @@
         import { $1, on } from "@@servicestack/client"
         on($1("#cookieConsent button"), {
             click(e) {
-                console.log('click',e)
                 document.cookie = "@cookieString"
-                e.target.parentElement.classList.add('hidden')
+                e.target.parentElement.remove()
             }
         })
     </script>
