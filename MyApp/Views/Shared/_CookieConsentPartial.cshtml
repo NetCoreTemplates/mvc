@@ -14,18 +14,15 @@
             (Authentication requires Users to accept).
             <a class="@Css.Link" asp-area="" asp-controller="Home" asp-action="Privacy">Learn More</a>.
         </p>
-        <button type="button" class="text-blue-700 dark:text-blue-200 font-semibold" data-cookie-string="@cookieString">
+        <button type="button" class="text-blue-700 dark:text-blue-200 font-semibold">
             Accept
         </button>
     </div>
     <script>
-        (function () {
-            const button = document.querySelector("#cookieConsent button[data-cookie-string]")
-            button.addEventListener("click", function (event) {
-                document.cookie = button.dataset.cookieString
-				const cookieContainer = document.querySelector("#cookieConsent")
-				cookieContainer.remove()
-            }, false)
-        })()
+    document.querySelector("#cookieConsent button")
+        .addEventListener("click", function (e) {
+            document.cookie = "@cookieString"
+            e.target.parentElement.remove()
+        }, false)
     </script>
 }
