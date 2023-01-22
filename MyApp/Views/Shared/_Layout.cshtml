@@ -56,14 +56,14 @@
         </div>
         <div class="flex flex-grow flex-shrink flex-nowrap justify-end items-center">
             <nav hx-boost="true" class="relative flex flex-grow leading-6 font-semibold text-slate-700 dark:text-slate-200">
-                <ul class="flex flex-wrap items-center justify-end w-full m-0 pb-2 sm:pb-0">
+                <ul class="flex flex-wrap items-center justify-end w-full pb-2 sm:pb-0 m-0">
                     @{
                         var isAuthenticated = await Html.IsAuthenticatedAsync();
                         //var isAdmin = await Html.HasRoleAsync("Admin");
 
-                        async Task RenderNavLink(string controller, string action, string childContent)
+                        async Task RenderNavLink(string controller, string action, string childContent, string cls=null)
                         {
-                            <li class="relative flex flex-wrap just-fu-start m-0">
+                            <li class="@Html.ClassNames("relative flex flex-wrap just-fu-start m-0",cls)">
                                 <a asp-controller="@controller" asp-action="@action"
                                    class="@Html.ClassNames("p-4 flex items-center justify-start mw-full hover:text-sky-500 dark:hover:text-sky-400", Html.MatchesPath(controller) ? "text-blue-700 dark:text-blue-300" : "")">
                                     @Html.Raw(childContent)
@@ -80,9 +80,9 @@
                             </li>
                         }
 
-                        await RenderNavLink("Blog", "Index", "Blog");
+                        await RenderNavLink("Blog", "Index", "Blog", "ml-8 sm:ml-0");
                         await RenderNavLink("Home", "Contacts", "Contacts");
-                        await RenderNavLink("Home", "AuthExamples", "Auth Examples");
+                        await RenderNavLink("Home", "AuthExamples", "Auth <span class=\"hidden sm:block\">Examples</span>");
                         await RenderNavLink("Home", "Privacy", "Privacy");
                         await RenderNavLink("Manage", "Index", "Account");
 
