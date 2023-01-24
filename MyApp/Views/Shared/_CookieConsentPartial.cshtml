@@ -20,7 +20,7 @@
     </div>
     <script>
     document.querySelector("#cookieConsent button")
-        .addEventListener("click", function (e) {
+        .addEventListener("click", e => {
             document.cookie = "@cookieString"
             e.target.parentElement.remove()
         }, false)
