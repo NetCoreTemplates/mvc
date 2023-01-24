@@ -108,11 +108,11 @@ const Edit = {
             if (api.succeeded) close()
         }
         async function onDelete() {
-            const api = await client.apiVoid(new DeleteContact({id: props.id}))
+            const api = await client.apiVoid(new DeleteContact({id: props.contact.id}))
             if (api.succeeded) close()
         }
         const close = () => emit('done')
-        return { visibleFields, submit, close, enumOptions, colorOptions, request }
+        return { visibleFields, colorOptions, request, submit, close, enumOptions, onDelete }
     }
 }
 
