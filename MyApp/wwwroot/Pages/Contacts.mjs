@@ -1,8 +1,7 @@
 import { ref, onMounted } from "vue"
 import { GetContacts, CreateContact, UpdateContact, DeleteContact } from "../mjs/dtos.mjs"
-import { useClient } from "../mjs/app.mjs"
 import { enumOptions, getProperty, propertyOptions } from "../mjs/types.mjs"
-import { unRefs } from "@servicestack/vue"
+import { useClient, unRefs } from "@servicestack/vue"
 
 const Create = {
     template:/*html*/`<SlideOver @done="close" title="New Contact">
