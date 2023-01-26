@@ -160,7 +160,7 @@ client.api(new Hello({ name }))
 ```
 
 You'll typically use all these libraries in your **API-enabled** components as seen in the 
-[HelloApi.mjs](https://github.com/NetCoreTemplates/vue-mjs/blob/main/MyApp/wwwroot/mjs/components/HelloApi.mjs)
+[HelloApi.mjs](https://github.com/NetCoreTemplates/mvc-tailwind/blob/main/MyApp/wwwroot/mjs/components/HelloApi.mjs)
 component on the home page which calls the [Hello](/ui/Hello) API on each key press:
 
 ```js
@@ -404,7 +404,7 @@ function validateSafeName(e) {
 
 Whilst the code-base doesn't use TypeScript syntax in its code base directly, it still uses TypeScript's language services to enable
 static analysis for the included libraries from the TypeScript definitions included in `/lib/typings`, downloaded 
-in [postinstall.js](https://github.com/NetCoreTemplates/vue-mjs/blob/main/MyApp/postinstall.js) after installing the template.
+in [postinstall.js](https://github.com/NetCoreTemplates/mvc-tailwind/blob/main/MyApp/postinstall.js) after installing the template.
 
 ### Import Maps
 
