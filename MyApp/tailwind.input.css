@@ -13,6 +13,11 @@
     white-space: pre;
 }
 b { font-weight: 600; }
+/* override element defaults */
+b { font-weight:600; }
+
+/*vue*/
+[v-cloak] {display:none}
 
 /* @tailwindcss/forms css */
 [type='text'],[type='email'],[type='url'],[type='password'],[type='number'],[type='date'],[type='month'],[type='search'],[type='tel'],[type='time'],[multiple],textarea,select
