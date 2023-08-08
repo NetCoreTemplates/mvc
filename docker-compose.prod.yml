@@ -18,7 +18,7 @@ services:
         container_name: ${APP_NAME}_app_migration
         profiles:
             - migration
-        command: --AppTasks=migrate
+        command: dotnet ef migrations add CreateMyAppIdentitySchema && dotnet ef database update
         volumes:
             - app-mydb:/app/App_Data
 
