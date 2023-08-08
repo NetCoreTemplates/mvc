@@ -126,24 +126,6 @@ jobs:
           source: "./docker-compose.yml,./docker-compose.prod.yml,./.env"
           target: "~/.deploy/${{ github.event.repository.name }}/"
 
-
-      - name: Run remote db migrations
-        uses: appleboy/ssh-action@v0.1.5
-        env:
-          APPTOKEN: ${{ secrets.GITHUB_TOKEN }}
-          USERNAME: ${{ secrets.DEPLOY_USERNAME }}
-        with:
-          host: ${{ secrets.DEPLOY_HOST }}
-          username: ${{ secrets.DEPLOY_USERNAME }}
-          key: ${{ secrets.DEPLOY_KEY }}
-          port: 22
-          envs: APPTOKEN,USERNAME
-          script: |
-            echo $APPTOKEN | docker login ghcr.io -u $USERNAME --password-stdin
-            cd ~/.deploy/${{ github.event.repository.name }}
-            docker compose -f ./docker-compose.yml -f ./docker-compose.prod.yml pull
-            docker compose -f ./docker-compose.yml -f ./docker-compose.prod.yml up app-migration
-
       # Deploy Docker image with your application using `docker compose up` remotely
       - name: remote docker-compose up via ssh
         uses: appleboy/ssh-action@v0.1.5

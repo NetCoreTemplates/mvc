@@ -12,15 +12,6 @@ services:
             LETSENCRYPT_EMAIL: ${LETSENCRYPT_EMAIL}
         volumes:
             - app-mydb:/app/App_Data
-    app-migration:
-        image: ghcr.io/${IMAGE_REPO}:${RELEASE_VERSION}
-        restart: "no"
-        container_name: ${APP_NAME}_app_migration
-        profiles:
-            - migration
-        command: dotnet ef migrations add CreateMyAppIdentitySchema && dotnet ef database update
-        volumes:
-            - app-mydb:/app/App_Data
 
 networks:
   default:
