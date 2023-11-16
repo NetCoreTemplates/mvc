@@ -8,6 +8,7 @@
 coverage/
 Migrations/
 lib/
+App_Data/
 package-lock.json
 *.sqlite
 *.sqlite-shm

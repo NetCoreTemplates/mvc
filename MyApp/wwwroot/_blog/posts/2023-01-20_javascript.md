@@ -157,7 +157,7 @@ $ npm run dtos
 That can be referenced instead to unlock your IDE's static analysis type-checking and intelli-sense benefits during development:
 
 ```js
-import { Hello } from '/js/dtos.mjs'
+import { Hello } from 'dtos.mjs'
 client.api(new Hello({ name }))
 ```
 
@@ -168,7 +168,7 @@ component on the home page which calls the [Hello](/ui/Hello) API on each key pr
 ```js
 import { ref } from "vue"
 import { useClient } from "@servicestack/vue"
-import { Hello } from "../dtos.mjs"
+import { Hello } from "dtos.mjs"
 
 export default {
     template:/*html*/`<div class="flex flex-wrap justify-center">
@@ -548,7 +548,7 @@ to load its initial list of todos using the [Service Gateway](https://docs.servi
 <script>todos = @await ApiResultsAsJsonAsync(new QueryTodos())</script>
 <script type="module">
 import TodoMvc from "/Pages/TodoMvc.mjs"
-import { mount } from "/mjs/app.mjs"
+import { mount } from "app.mjs"
 mount('#todomvc', TodoMvc, { todos })
 </script>
 ```

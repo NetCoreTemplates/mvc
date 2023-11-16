@@ -4,9 +4,9 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using MyApp.Models;
+using MyApp.Extensions;
 using MyApp.Models.ManageViewModels;
-using MyApp.Services;
+using MyApp.ServiceInterface.Data;
 
 namespace MyApp.Controllers;
 

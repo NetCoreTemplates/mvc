@@ -1,6 +1,6 @@
 import { ref, onMounted, watch } from "vue"
 import { useClient, useMetadata } from "@servicestack/vue"
-import { GetContacts, CreateContact, UpdateContact, DeleteContact } from "../mjs/dtos.mjs"
+import { GetContacts, CreateContact, UpdateContact, DeleteContact } from "dtos.mjs"
 
 const Create = {
     template:/*html*/`<SlideOver @done="close" title="New Contact">

@@ -1,3 +1,4 @@
+@using MyApp.ServiceInterface.Data
 @{
     ViewData["Title"] = "Sign In";
     ViewData["LoginPath"] = "/Account/Login";
@@ -106,9 +107,10 @@
         <div class="mt-8">
             <b>Quick Login</b>
             <div class="mt-2">
-                <span class="@Css.SecondaryButton px-3 mb-1" data-click="switchUser:user@@gmail.com">user@@gmail.com</span>
-                <span class="@Css.SecondaryButton px-3 mb-1" data-click="switchUser:manager@@gmail.com">manager@@gmail.com</span>
-                <span class="@Css.SecondaryButton px-3 mb-1" data-click="switchUser:admin@@gmail.com">admin@@gmail.com</span>
+                <span class="@Css.SecondaryButton px-3 mb-1" data-click="switchUser:test@@email.com">test@@email.com</span>
+                <span class="@Css.SecondaryButton px-3 mb-1" data-click="switchUser:employee@@email.com">employee@@email.com</span>
+                <span class="@Css.SecondaryButton px-3 mb-1" data-click="switchUser:manager@@email.com">manager@@email.com</span>
+                <span class="@Css.SecondaryButton px-3 mb-1" data-click="switchUser:admin@@email.com">admin@@email.com</span>
                 <span class="@Css.SecondaryButton px-3 mb-1" data-click="switchUser:new@@user.com">new@@user.com</span>
             </div>
         </div>
@@ -122,29 +124,20 @@ else
             <tbody>
                 <tr>
                     <th>Id</th>
-                    <td>@Model.Id</td>
+                    <td>@User.GetUserId()</td>
                 </tr>
                 <tr>
                     <th>Email</th>
-                    <td>@Model.Email</td>
-                </tr>
-                <tr>
-                    <th>UserName</th>
-                    <td>@Model.UserName</td>
+                    <td>@User.GetEmail()</td>
                 </tr>
                 <tr>
                     <th>DisplayName</th>
-                    <td>@Model.DisplayName</td>
-                </tr>
-                <tr>
-                    <th>AuthProvider</th>
-                    <td>@Model.AuthProvider</td>
+                    <td>@User.GetDisplayName()</td>
                 </tr>
                 <tr>
                     <th>ProfileUrl</th>
                     <td>
-                        <img src="@Model.ProfileUrl" /> 
-                        <span>@(Model.ProfileUrl ?? "(fallback)")</span>
+                        <img src="@User.GetProfileUrl()" /> 
                     </td>
                 </tr>
             </tbody>
@@ -173,7 +166,7 @@ import { $1, bindHandlers } from "@@servicestack/client"
 bindHandlers({
    switchUser(u) {
        $1("#Email").value = u
-       $1("#Password").value = 'p@@55wOrd'
+       $1("#Password").value = 'p@55wOrd'
    },
 })  
 </script>

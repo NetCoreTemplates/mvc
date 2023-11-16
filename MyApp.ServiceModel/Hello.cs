@@ -27,7 +27,7 @@ public class RequiresAuthResponse
     public string Result { get; set; } = default!;
 }
 
-[ValidateHasRole(AppRoles.Manager)]
+[ValidateHasRole(Roles.Manager)]
 [Route("/requiresrole")]
 [Route("/requiresrole/{Name}")]
 public class RequiresRole : IReturn<RequiresRoleResponse>

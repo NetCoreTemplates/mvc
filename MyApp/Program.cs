@@ -2,14 +2,12 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Server.IISIntegration;
 using Microsoft.EntityFrameworkCore;
+using MyApp.ServiceInterface;
 using ServiceStack;
-using MyApp.Data;
-using MyApp.Models;
-using MyApp.Services;
+using MyApp.ServiceInterface.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
-var config = builder.Configuration;
 var services = builder.Services;
 #if DEBUG
     services.AddMvc(options => options.EnableEndpointRouting = false).AddRazorRuntimeCompilation();
@@ -24,46 +22,39 @@ services.Configure<CookiePolicyOptions>(options =>
     options.MinimumSameSitePolicy = SameSiteMode.Strict;
 });
 
-// To create Identity SQL Server database, change "ConnectionStrings" in appsettings.json
-//   $ dotnet ef migrations add CreateMyAppIdentitySchema
-//   $ dotnet ef database update
-services.AddDbContext<ApplicationDbContext>(options => {
-    //Uncomment to use SQL Server instead
-    //options.UseSqlServer(config.GetConnectionString("SqlServerExpress"));
-    //Uncomment to use SQLite In Memory instead
-    //options.UseSqlite(SqliteInMemoryDatabase.Connection);
-    options.UseSqlite(config.GetConnectionString("SqliteConnection"));
-});
+var config = builder.Configuration;
+
+// $ dotnet ef migrations add CreateIdentitySchema
+// $ dotnet ef database update
+var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
+builder.Services.AddDbContext<ApplicationDbContext>(options =>
+    options.UseSqlite(connectionString, b => b.MigrationsAssembly(nameof(MyApp))));
+builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 services.AddIdentity<ApplicationUser, IdentityRole>(options => {
-        options.User.AllowedUserNameCharacters = null;
+        //options.User.AllowedUserNameCharacters = null;
+        //options.SignIn.RequireConfirmedAccount = true;
     })
     .AddEntityFrameworkStores<ApplicationDbContext>()
     .AddDefaultTokenProviders();
     
 services.AddAuthentication(IISDefaults.AuthenticationScheme)
-    .AddTwitter(options => { /* Create Twitter App at: https://dev.twitter.com/apps */
-        options.ConsumerKey = config["oauth.twitter.ConsumerKey"];
-        options.ConsumerSecret = config["oauth.twitter.ConsumerSecret"];
-        options.SaveTokens = true;
-        options.RetrieveUserDetails = true;
-    })
     .AddFacebook(options => { /* Create App https://developers.facebook.com/apps */
-        options.AppId = config["oauth.facebook.AppId"];
-        options.AppSecret = config["oauth.facebook.AppSecret"];
+        options.AppId = config["oauth.facebook.AppId"]!;
+        options.AppSecret = config["oauth.facebook.AppSecret"]!;
         options.SaveTokens = true;
         options.Scope.Clear();
         config.GetSection("oauth.facebook.Permissions").GetChildren()
-            .Each(x => options.Scope.Add(x.Value));
+            .Each(x => options.Scope.Add(x.Value!));
     })
     .AddGoogle(options => { /* Create App https://console.developers.google.com/apis/credentials */
-        options.ClientId = config["oauth.google.ConsumerKey"];
-        options.ClientSecret = config["oauth.google.ConsumerSecret"];
+        options.ClientId = config["oauth.google.ConsumerKey"]!;
+        options.ClientSecret = config["oauth.google.ConsumerSecret"]!;
         options.SaveTokens = true;
     })
     .AddMicrosoftAccount(options => { /* Create App https://apps.dev.microsoft.com */
-        options.ClientId = config["oauth.microsoftgraph.AppId"];
-        options.ClientSecret = config["oauth.microsoftgraph.AppSecret"];
+        options.ClientId = config["oauth.microsoft.AppId"]!;
+        options.ClientSecret = config["oauth.microsoft.AppSecret"]!;
         options.SaveTokens = true;
     });
     
@@ -106,23 +97,9 @@ services.ConfigureApplicationCookie(options =>
 
 // Add application services.
 services.AddTransient<IEmailSender, EmailSender>();
-
-// Populate ApplicationUser with Auth Info
-services.AddTransient<IExternalLoginAuthInfoProvider>(c => 
-    new ExternalLoginAuthInfoProvider(config));
+builder.Services.AddScoped<IUserClaimsPrincipalFactory<ApplicationUser>, AdditionalUserClaimsPrincipalFactory>();
 
 var app = builder.Build();
-
-// TODO: Move EF Migrations to CI
-using (var scope = app.Services.CreateScope())
-{
-    var context = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
-    if (context.Database.GetPendingMigrations().Any())
-        context.Database.Migrate();
-
-    AppHost.AddSeedUsersAsync(scope).GetAwaiter().GetResult();
-}
-
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())

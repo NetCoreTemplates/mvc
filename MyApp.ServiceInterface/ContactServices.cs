@@ -1,10 +1,6 @@
-using System;
 using System.Collections.Concurrent;
 using System.Drawing;
 using System.Globalization;
-using System.Linq;
-using System.Threading;
-using System.Threading.Tasks;
 using ServiceStack;
 using ServiceStack.FluentValidation;
 using ServiceStack.Script;
@@ -68,7 +64,7 @@ public class ContactServices : Service
 
     public async Task<object> Any(UpdateContact request)
     {
-        if (!ContactServices.Contacts.TryGetValue(request.Id, out var contact) || contact.UserAuthId != await this.GetUserIdAsync())
+        if (!Contacts.TryGetValue(request.Id, out var contact) || contact.UserAuthId != await this.GetUserIdAsync())
             throw HttpError.NotFound("Contact was not found");
 
         contact.PopulateWith(request);

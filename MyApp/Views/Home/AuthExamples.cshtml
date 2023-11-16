@@ -1,4 +1,3 @@
-@model MyApp.ServiceInterface.CustomUserSession
 @{
     var inputCss = $"txtName {Css.InputText} m-2 inline-block max-w-[220px]";
 }
@@ -15,7 +14,7 @@
 </div>
 
 <div class="flex">
-    @if (!Model.IsAuthenticated)
+    @if (!User.IsAuthenticated())
     {
         <div class="mx-auto">
             <a asp-area="" asp-controller="Account" asp-action="Login" class="@Html.ClassNames(Css.PrimaryButton, "my-4")">
@@ -28,8 +27,8 @@
         <div class="mx-auto">
             <form asp-area="" asp-controller="Account" asp-action="Logout" method="post">
                 <div class="flex items-center my-4">
-                    <img src="@Model.GetProfileUrl()" class="w-8 h-8 mr-2">
-                    <div>Hi @Model.DisplayName!</div>
+                    <img src="@User.GetProfileUrl()" class="w-8 h-8 mr-2">
+                    <div>Hi @User.GetDisplayName()</div>
                 </div>
                 <div>
                     <button type="submit" class="@Css.SecondaryButton">Sign Out</button>
@@ -38,8 +37,6 @@
         </div>
     }
 </div>
-
-
 
 <div class="mt-16 flex flex-wrap justify-evenly">
     <div>

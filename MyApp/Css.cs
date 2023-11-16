@@ -8,8 +8,9 @@ namespace MyApp;
 public static class Css
 {
     public const string H1 = "text-3xl font-bold tracking-tight text-gray-900 dark:text-gray-50 sm:text-4xl";
-    public const string H2 = "text-3xl md:text-4xl font-bold tracking-tighter leading-tight md:pr-8 whitespace-nowrap text-center pt-8";
-    public const string H3 = "mb-4 text-2xl lg:text-4xl leading-tight";
+    public const string H2 = "text-3xl md:text-4xl font-bold tracking-tighter leading-tight md:pr-8 whitespace-nowrap pt-8";
+    public const string H3 = "mb-4 text-2xl font-semibold text-gray-900 dark:text-gray-100 leading-tight";
+    public const string H4 = "text-xl font-semibold text-gray-900 dark:text-gray-100 leading-tight";
     public const string Link = "font-semibold text-indigo-600 dark:text-indigo-300 hover:text-indigo-500 dark:hover:text-indigo-400";
     public const string LinkUnderline = "underline hover:text-success duration-200 transition-colors";
     public const string PrimaryButton = "cursor-pointer inline-flex justify-center rounded-md border border-transparent py-2 px-4 text-sm font-medium shadow-sm focus:outline-none focus:ring-2 focus:ring-offset-2 dark:ring-offset-black focus:ring-2 focus:ring-offset-2 text-white bg-indigo-600 hover:bg-indigo-700 focus:ring-indigo-500 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800";
@@ -27,8 +28,11 @@ public static class CssHtmlExtensions
     public static IHtmlContent SrcComponent(this IHtmlHelper html, string path, string? size = null, string? cls = null) =>
         html.SrcLink($"/MyApp/wwwroot/mjs/components/{path}", size, cls);
      
-    public static IHtmlContent SrcPage(this IHtmlHelper html, string path, string? size = null, string? cls = null) =>
-        html.SrcLink($"/MyApp/wwwroot/Pages/{path}", size, cls);
+    public static IHtmlContent SrcPageView(this IHtmlHelper html, string path, string? size = null, string? cls = null) =>
+        html.SrcLink($"/MyApp/Views/{path}", size, cls);
+     
+    public static IHtmlContent SrcPageMjs(this IHtmlHelper html, string path, string? size = null, string? cls = null) =>
+        html.SrcLink($"/MyApp/wwwroot/pages/{path}", size, cls);
    
     public static IHtmlContent SrcLink(this IHtmlHelper html, string path, string? size = null, string? cls = null)
     {

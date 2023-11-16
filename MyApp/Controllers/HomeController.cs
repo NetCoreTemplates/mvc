@@ -20,9 +20,15 @@ public class HomeController : ServiceStackController
         return View();
     }
 
+    [Authorize]
+    public IActionResult Bookings()
+    {
+        return View();
+    }
+
     public IActionResult AuthExamples()
     {
-        return View(SessionAs<CustomUserSession>());
+        return View();
     }
 
     public IActionResult Privacy()

@@ -3,10 +3,10 @@ using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
-using MyApp.Models;
+using MyApp.Extensions;
 using MyApp.Models.AccountViewModels;
 using MyApp.ServiceInterface;
-using MyApp.Services;
+using MyApp.ServiceInterface.Data;
 using ServiceStack.Mvc;
 
 namespace MyApp.Controllers;
@@ -251,7 +251,7 @@ public class AccountController : ServiceStackController
     {
         await _signInManager.SignOutAsync();
         _logger.LogInformation("User logged out.");
-        return RedirectToAction(nameof(HomeController.Index), "Home");
+        return RedirectToAction(nameof(SignedOut));
     }
 
     [HttpPost]
@@ -445,6 +445,13 @@ public class AccountController : ServiceStackController
 
     [HttpGet]
     public IActionResult AccessDenied()
+    {
+        return View();
+    }
+
+    [HttpGet]
+    [AllowAnonymous]
+    public IActionResult SignedOut()
     {
         return View();
     }

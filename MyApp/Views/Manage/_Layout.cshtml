@@ -2,7 +2,9 @@
     Layout = "/Views/Shared/_Layout.cshtml";
 }
 
-<h2 class="@Css.H2">Manage your account</h2>
+<div class="ml-72 max-w-screen-md">
+    <h2 class="@Css.H2">Manage your account</h2>
+</div>
 
 <div>
     <h4 class="font-semibold text-lg m-2">Change your account settings</h4>
@@ -11,12 +13,12 @@
         <div class="grow-0">
             @await Html.PartialAsync("_ManageNav")
         </div>
-        <div class="grow p-4 sm:pl-16">
+        <div class="grow p-4 sm:pl-16 max-w-screen-md">
             @RenderBody()
         </div>
     </div>
 </div>
 
 @section Scripts {
-    @RenderSection("Scripts", required: false)
+    @await RenderSectionAsync("Scripts", required: false)
 }

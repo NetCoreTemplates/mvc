@@ -7,21 +7,6 @@
     <meta charset="utf-8"/>
     <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
     <title>@ViewData["Title"] - MyApp</title>
-    <script>
-    let colorScheme = localStorage.getItem('color-scheme')
-    setColorScheme()
-    function setColorScheme() {
-        if (colorScheme === 'dark')
-            document.querySelector('html').classList.add('dark')
-        else
-            document.querySelector('html').classList.remove('dark')
-    }
-    function toggleDarkMode() {
-        colorScheme = colorScheme === 'dark' ? 'light' : 'dark'
-        localStorage.setItem('color-scheme', colorScheme)
-        setColorScheme()        
-    }
-    </script>
 
     <environment include="Development">
         <link rel="stylesheet" href="~/lib/css/font-awesome/css/all.css"/>
@@ -42,7 +27,9 @@
     {
         ["vue"]                  = ("/lib/mjs/vue.mjs",                 "/lib/mjs/vue.min.mjs"),
         ["@servicestack/client"] = ("/lib/mjs/servicestack-client.mjs", "/lib/mjs/servicestack-client.min.mjs"),
-        ["@servicestack/vue"]    = ("/lib/mjs/servicestack-vue.mjs",    "/lib/mjs/servicestack-vue.min.mjs")
+        ["@servicestack/vue"]    = ("/lib/mjs/servicestack-vue.mjs",    "/lib/mjs/servicestack-vue.min.mjs"),
+        ["app.mjs"]              = ("/mjs/app.mjs",                     "/mjs/app.mjs"),
+        ["dtos.mjs"]             = ("/mjs/dtos.mjs",                    "/mjs/dtos.mjs"),
     })
     
     @if (dev) {
@@ -75,7 +62,7 @@
                 <ul class="flex flex-wrap items-center justify-end w-full pb-2 sm:pb-0 m-0">
                     @{
                         var isAuthenticated = await Html.IsAuthenticatedAsync();
-                        //var isAdmin = await Html.HasRoleAsync("Admin");
+                        var isAdmin = await Html.HasRoleAsync("Admin");
 
                         async Task RenderNavLink(string controller, string action, string childContent, string cls=null)
                         {
@@ -87,7 +74,7 @@
                             </li>
                         }
 
-                        async Task RenderLinkButton(string controller, string action, string childContent, string cls = null)
+                        async Task RenderLinkButton(string controller, string action, string childContent, string? cls = null)
                         {
                             <li class="relative flex flex-wrap just-fu-start m-0">
                                 <a asp-controller="@controller" asp-action="@action" class="@(cls ?? Css.SecondaryButton)">
@@ -98,19 +85,35 @@
 
                         await RenderNavLink("Blog", "Index", "Blog", "ml-8 sm:ml-0");
                         await RenderNavLink("Home", "Contacts", "Contacts");
+                        await RenderNavLink("Home", "Bookings", "Bookings");
                         await RenderNavLink("Home", "AuthExamples", "Auth <span class=\"ml-1 hidden sm:block\">Examples</span>");
+                        if (isAdmin)
+                        {
+                            <li class="relative flex flex-wrap just-fu-start m-0">
+                                <a href="/admin-ui" class="p-4 flex items-center justify-start mw-full hover:text-sky-500 dark:hover:text-sky-400">
+                                    Admin UI
+                                </a>
+                            </li>
+                        }
                         await RenderNavLink("Home", "Privacy", "Privacy");
                         await RenderNavLink("Manage", "Index", "Account");
 
                         if (!isAuthenticated)
+                        {
                             await RenderLinkButton("Account", "Login", "Sign In");
-                        if (!isAuthenticated)
                             await RenderLinkButton("Account", "Register", "Sign Up", $"mx-2 {Css.PrimaryButton}");
+                        }
+                        else
+                        {
+                            <li class="relative flex flex-wrap just-fu-start mr-2">
+                                <form asp-area="" asp-controller="Account" asp-action="Logout" method="post">
+                                    <button type="submit" class="@Css.SecondaryButton">Sign Out</button>
+                                </form>
+                            </li>
+                        }
                     }
                     <li class="relative flex flex-wrap just-fu-start m-0">
-                        <span class="dark-mode cursor-pointer" onclick="toggleDarkMode()">
-                            <i class="fas fa-adjust"></i>
-                        </span>
+                        @await Html.PartialAsync("DarkModeToggle")
                     </li>
                 </ul>
             </nav>
@@ -150,5 +153,10 @@
 <script src="~/js/site.js" asp-append-version="true"></script>
 
 @await RenderSectionAsync("Scripts", required: false)
+
+<script type="module">
+import { init } from "app.mjs"
+init()
+</script>
 </body>
 </html>

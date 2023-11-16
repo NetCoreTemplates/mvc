@@ -1,29 +1,39 @@
 ﻿@model ExternalLoginViewModel
 @{
     ViewData["Title"] = "Register";
+    var loginProvider = ViewData["LoginProvider"];
 }
 
-<h2>@ViewData["Title"]</h2>
-<h4>Associate your @ViewData["LoginProvider"] account.</h4>
-<hr />
+<div class="mt-8 mx-auto max-w-lg">
+    <div>
+        <h1 class="@Css.H1 mb-4">@ViewData["Title"]</h1>
+        <h4 class="@Css.H4">Associate your @ViewData["LoginProvider"] account.</h4>
+    </div>
 
-<p class="text-info">
-    You've successfully authenticated with <strong>@ViewData["LoginProvider"]</strong>.
-    Please enter an email address for this site below and click the Register button to finish
-    logging in.
-</p>
+    @await Html.PartialAsync("AlertInfo", $@"You've successfully authenticated with <strong>{loginProvider}</strong>.
+        Please enter an email address for this site below and click the Register button to finish
+        logging in.")
 
-<div class="row">
-    <div class="col-md-4">
-        <form asp-action="ExternalLoginConfirmation" asp-route-returnurl="@ViewData["ReturnUrl"]" method="post">
-            <div asp-validation-summary="All" class="text-danger"></div>
-            <div class="form-group">
-                <label asp-for="Email"></label>
-                <input asp-for="Email" class="form-control" />
-                <span asp-validation-for="Email" class="text-danger"></span>
-            </div>
-            <button type="submit" class="btn btn-default">Register</button>
-        </form>
+    <div class="mt-3 shadow overflow-hidden sm:rounded-md">
+        <div class="px-4 bg-white dark:bg-black sm:p-6">
+            <form asp-action="ExternalLoginConfirmation" asp-route-returnurl="@ViewData["ReturnUrl"]" method="post">
+                <div asp-validation-summary="All" class="text-danger text-center font-semibold"></div>
+                <div class="flex flex-col gap-y-4">
+                    <div>
+                        <div>
+                            <label asp-for="Email" class="block text-sm font-medium text-gray-700 dark:text-gray-300">Email</label>
+                            <div class="mt-1 relative rounded-md shadow-sm">
+                                <input type="text" class="@Css.InputText" asp-for="Email" spellcheck="false">
+                            </div>
+                            <p asp-validation-for="Email" class="text-danger"></p>
+                        </div>                            
+                    </div>
+                    <div>
+                        <button type="submit" class="@Css.PrimaryButton">Register</button>
+                    </div>
+                </div>
+            </form>
+        </div>
     </div>
 </div>
 

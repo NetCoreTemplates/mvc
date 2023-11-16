@@ -16,7 +16,7 @@
                 @foreach (var login in Model.CurrentLogins)
                 {
                     <tr>
-                        <td>@login.LoginProvider</td>
+                        <td><h3 class="@Css.H3">@login.LoginProvider</h3></td>
                         <td>
                             @if (Model.ShowRemoveButton)
                             {
