@@ -1,6 +1,6 @@
 using MyApp.ServiceModel.Types;
 
-namespace MyApp.ServiceInterface.Data;
+namespace MyApp.Data;
 
 /// <summary>
 /// Example of using separate DataModel and DTO

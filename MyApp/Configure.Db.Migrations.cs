@@ -1,7 +1,8 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
+using MyApp.Data;
 using MyApp.Migrations;
-using MyApp.ServiceInterface.Data;
+using MyApp.ServiceModel;
 using ServiceStack;
 using ServiceStack.Data;
 using ServiceStack.OrmLite;
@@ -87,6 +88,7 @@ public class ConfigureDbMigrations : IHostingStartup
             FirstName = "Test",
             LastName = "User",
             EmailConfirmed = true,
+            ProfileUrl = "/img/profiles/user1.svg",
         }, "p@55wOrd");
 
         await EnsureUserAsync(new ApplicationUser
@@ -97,6 +99,7 @@ public class ConfigureDbMigrations : IHostingStartup
             FirstName = "Test",
             LastName = "Employee",
             EmailConfirmed = true,
+            ProfileUrl = "/img/profiles/user2.svg",
         }, "p@55wOrd", [Roles.Employee]);
 
         await EnsureUserAsync(new ApplicationUser
@@ -107,6 +110,7 @@ public class ConfigureDbMigrations : IHostingStartup
             FirstName = "Test",
             LastName = "Manager",
             EmailConfirmed = true,
+            ProfileUrl = "/img/profiles/user3.svg",
         }, "p@55wOrd", [Roles.Manager, Roles.Employee]);
 
         await EnsureUserAsync(new ApplicationUser

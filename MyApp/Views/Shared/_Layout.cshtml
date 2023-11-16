@@ -31,6 +31,7 @@
         ["app.mjs"]              = ("/mjs/app.mjs",                     "/mjs/app.mjs"),
         ["dtos.mjs"]             = ("/mjs/dtos.mjs",                    "/mjs/dtos.mjs"),
     })
+    @await RenderSectionAsync("head", required: false)
     
     @if (dev) {
         <script>window.Server = @await Html.ApiAsJsonAsync(new MetadataApp())</script>
@@ -95,7 +96,11 @@
                                 </a>
                             </li>
                         }
-                        await RenderNavLink("Home", "Privacy", "Privacy");
+                        <li class="relative flex flex-wrap just-fu-start m-0">
+                            <a href="/docs/privacy" class="p-4 flex items-center justify-start mw-full hover:text-sky-500 dark:hover:text-sky-400">
+                                Privacy
+                            </a>
+                        </li>
                         await RenderNavLink("Manage", "Index", "Account");
 
                         if (!isAuthenticated)

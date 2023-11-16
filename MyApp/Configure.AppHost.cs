@@ -1,6 +1,6 @@
 ﻿using Funq;
 using ServiceStack;
-using MyApp.ServiceInterface;
+using MyApp.Data;
 
 [assembly: HostingStartup(typeof(MyApp.AppHost))]
 
@@ -19,7 +19,6 @@ public class AppHost : AppHostBase, IHostingStartup
     public override void Configure(Container container)
     {
         SetConfig(new HostConfig {
-            AdminAuthSecret = "adm1nSecret",
         });
     }
 }

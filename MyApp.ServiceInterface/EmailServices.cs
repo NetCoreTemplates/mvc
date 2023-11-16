@@ -3,7 +3,7 @@ using Microsoft.Extensions.Logging;
 using ServiceStack;
 using MyApp.ServiceModel;
 
-namespace MyApp.ServiceInterface;
+namespace MyApp.Data;
 
 /// <summary>
 /// Configuration for sending emails using SMTP servers in EmailServices

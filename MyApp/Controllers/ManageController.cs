@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using MyApp.Extensions;
 using MyApp.Models.ManageViewModels;
-using MyApp.ServiceInterface.Data;
+using MyApp.Data;
 
 namespace MyApp.Controllers;
 

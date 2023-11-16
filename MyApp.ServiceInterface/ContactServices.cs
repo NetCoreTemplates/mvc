@@ -7,7 +7,7 @@ using ServiceStack.Script;
 using MyApp.ServiceModel;
 using MyApp.ServiceModel.Types;
 
-namespace MyApp.ServiceInterface;
+namespace MyApp.Data;
 
 // Fluent Validation Example
 public class UpdateContactValidator : AbstractValidator<UpdateContact>
@@ -36,7 +36,7 @@ public class ContactServices : Service
             Results = Contacts.Values
                 .Where(x => x.UserAuthId == userId && request.Id == null || x.Id == request.Id)
                 .OrderByDescending(x => x.Id)
-                .Map(x => x.ConvertTo<Contact>())
+                .Map(x => x.ConvertTo<ServiceModel.Types.Contact>())
         };
     }
 
@@ -53,7 +53,7 @@ public class ContactServices : Service
             throw new ArgumentException($"You already have a contact named '{request.Name}'", nameof(request.Name));
         
         Contacts[newContact.Id] = newContact;
-        return new CreateContactResponse { Result = newContact.ConvertTo<Contact>() };
+        return new CreateContactResponse { Result = newContact.ConvertTo<ServiceModel.Types.Contact>() };
     }
 
     public async Task Any(DeleteContact request)

@@ -2,57 +2,32 @@
 using Microsoft.AspNetCore.Mvc;
 using MyApp.Models;
 using Microsoft.AspNetCore.Authorization;
-using MyApp.ServiceInterface;
 using ServiceStack.Mvc;
 
 namespace MyApp.Controllers;
 
 public class HomeController : ServiceStackController
 {
-    public IActionResult Index()
-    {
-        return View(SessionAs<CustomUserSession>());
-    }
+    public IActionResult Index() => View();
 
     [Authorize]
-    public IActionResult Contacts()
-    {
-        return View();
-    }
+    public IActionResult Contacts() => View();
 
     [Authorize]
-    public IActionResult Bookings()
-    {
-        return View();
-    }
+    public IActionResult Bookings() => View();
 
-    public IActionResult AuthExamples()
-    {
-        return View();
-    }
+    public IActionResult AuthExamples() => View();
 
-    public IActionResult Privacy()
-    {
-        return View();
-    }
+    // public IActionResult Privacy() => View();
 
     [Authorize]
-    public IActionResult RequiresAuth()
-    {
-        return View();
-    }
+    public IActionResult RequiresAuth() => View();
 
     [Authorize(Roles = "Manager")]
-    public IActionResult RequiresRole()
-    {
-        return View();
-    }
+    public IActionResult RequiresRole() => View();
 
     [Authorize(Roles = "Admin")]
-    public IActionResult RequiresAdmin()
-    {
-        return View();
-    }
+    public IActionResult RequiresAdmin() => View();
 
     [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
     public IActionResult Error()

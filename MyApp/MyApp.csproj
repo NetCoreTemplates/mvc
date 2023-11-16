@@ -51,4 +51,10 @@
     <ProjectReference Include="..\MyApp.ServiceModel\MyApp.ServiceModel.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <_ContentIncludedByDefault Remove="wwwroot\img\authors\author1.svg" />
+    <_ContentIncludedByDefault Remove="wwwroot\img\authors\author2.svg" />
+    <_ContentIncludedByDefault Remove="wwwroot\img\authors\author3.svg" />
+  </ItemGroup>
+
 </Project>

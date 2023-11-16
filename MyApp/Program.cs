@@ -2,13 +2,13 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Server.IISIntegration;
 using Microsoft.EntityFrameworkCore;
-using MyApp.ServiceInterface;
 using ServiceStack;
-using MyApp.ServiceInterface.Data;
+using MyApp.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 
 var services = builder.Services;
+var config = builder.Configuration;
 #if DEBUG
     services.AddMvc(options => options.EnableEndpointRouting = false).AddRazorRuntimeCompilation();
 #else
@@ -22,14 +22,12 @@ services.Configure<CookiePolicyOptions>(options =>
     options.MinimumSameSitePolicy = SameSiteMode.Strict;
 });
 
-var config = builder.Configuration;
-
 // $ dotnet ef migrations add CreateIdentitySchema
 // $ dotnet ef database update
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ?? throw new InvalidOperationException("Connection string 'DefaultConnection' not found.");
-builder.Services.AddDbContext<ApplicationDbContext>(options =>
+services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlite(connectionString, b => b.MigrationsAssembly(nameof(MyApp))));
-builder.Services.AddDatabaseDeveloperPageExceptionFilter();
+services.AddDatabaseDeveloperPageExceptionFilter();
 
 services.AddIdentity<ApplicationUser, IdentityRole>(options => {
         //options.User.AllowedUserNameCharacters = null;
@@ -97,7 +95,7 @@ services.ConfigureApplicationCookie(options =>
 
 // Add application services.
 services.AddTransient<IEmailSender, EmailSender>();
-builder.Services.AddScoped<IUserClaimsPrincipalFactory<ApplicationUser>, AdditionalUserClaimsPrincipalFactory>();
+services.AddScoped<IUserClaimsPrincipalFactory<ApplicationUser>, AdditionalUserClaimsPrincipalFactory>();
 
 var app = builder.Build();
 

@@ -1,11 +1,10 @@
 using System.Security.Claims;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
-using MyApp.ServiceInterface.Data;
 using ServiceStack;
 using ServiceStack.Web;
 
-namespace MyApp.ServiceInterface;
+namespace MyApp.Data;
 
 public class CustomUserSession : AuthUserSession
 {
@@ -19,15 +18,12 @@ public class CustomUserSession : AuthUserSession
 /// <summary>
 /// Add additional claims to the Identity Auth Cookie
 /// </summary>
-public class AdditionalUserClaimsPrincipalFactory
-    : UserClaimsPrincipalFactory<ApplicationUser, IdentityRole>
-{
-    public AdditionalUserClaimsPrincipalFactory(
+public class AdditionalUserClaimsPrincipalFactory(
         UserManager<ApplicationUser> userManager,
         RoleManager<IdentityRole> roleManager,
         IOptions<IdentityOptions> optionsAccessor)
-        : base(userManager, roleManager, optionsAccessor) { }
-
+    : UserClaimsPrincipalFactory<ApplicationUser,IdentityRole>(userManager, roleManager, optionsAccessor)
+{
     public override async Task<ClaimsPrincipal> CreateAsync(ApplicationUser user)
     {
         var principal = await base.CreateAsync(user);

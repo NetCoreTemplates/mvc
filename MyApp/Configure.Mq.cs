@@ -1,7 +1,7 @@
 using System.Text.Encodings.Web;
 using ServiceStack;
 using ServiceStack.Messaging;
-using MyApp.ServiceInterface;
+using MyApp.Data;
 
 [assembly: HostingStartup(typeof(MyApp.ConfigureMq))]
 

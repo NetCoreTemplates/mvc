@@ -1,7 +1,7 @@
 ﻿using ServiceStack;
 using MyApp.ServiceModel;
 
-namespace MyApp.ServiceInterface;
+namespace MyApp.Data;
 
 public class MyServices : Service
 {

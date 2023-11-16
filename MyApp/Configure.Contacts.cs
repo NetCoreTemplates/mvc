@@ -1,5 +1,4 @@
-using MyApp.ServiceInterface;
-using MyApp.ServiceModel.Types;
+using MyApp.Data;
 using ServiceStack;
 using ServiceStack.FluentValidation.Validators;
 using ServiceStack.Script;
@@ -20,7 +19,7 @@ public class ConfigureContacts : IHostingStartup
 {
     public void Configure(IWebHostBuilder builder) => builder
         .ConfigureAppHost(appHost => {
-            AutoMapping.RegisterConverter((ServiceInterface.Data.Contact from) => from.ConvertTo<Contact>(skipConverters: true));
+            AutoMapping.RegisterConverter((Contact from) => from.ConvertTo<ServiceModel.Types.Contact>(skipConverters: true));
             appHost.ScriptContext.ScriptMethods.Add(new MyValidators());
         });
 }

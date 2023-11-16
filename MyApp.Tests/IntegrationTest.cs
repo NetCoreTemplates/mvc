@@ -1,7 +1,7 @@
 ﻿using Funq;
 using ServiceStack;
 using NUnit.Framework;
-using MyApp.ServiceInterface;
+using MyApp.Data;
 using MyApp.ServiceModel;
 
 namespace MyApp.Tests;

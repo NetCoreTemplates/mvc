@@ -1,5 +1,4 @@
-﻿@model MyApp.ServiceInterface.CustomUserSession
-@inject BlogPosts BlogPosts
+﻿@inject MarkdownBlog BlogPosts
 @{
     ViewData["Title"] = "Home Page";
 }
@@ -26,7 +25,7 @@
                 <div class="mb-8 md:mb-16">
                     <div class="sm:mx-0">
                         <a aria-label="@post.Title" href="@BlogPosts.GetPostLink(post)">
-                            <img src="@post.Splash" alt="Cover Image for @post.Title" class="shadow-sm hover:shadow-2xl transition-shadow duration-200">
+                            <img src="@post.Image" alt="Cover Image for @post.Title" class="shadow-sm hover:shadow-2xl transition-shadow duration-200">
                         </a>
                     </div>
                 </div>
@@ -56,7 +55,7 @@
                 <div class="mb-5">
                     <div class="sm:mx-0">
                         <a aria-label="@post.Title" href="@BlogPosts.GetPostLink(post)">
-                            <img src="@post.Splash" alt="Cover Image for @post.Title" class="shadow-sm hover:shadow-2xl transition-shadow duration-200">
+                            <img src="@post.Image" alt="Cover Image for @post.Title" class="shadow-sm hover:shadow-2xl transition-shadow duration-200">
                         </a>
                     </div>
                 </div>

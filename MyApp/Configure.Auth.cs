@@ -2,8 +2,7 @@ using System.Security.Claims;
 using Microsoft.AspNetCore.Identity;
 using ServiceStack;
 using ServiceStack.Auth;
-using MyApp.ServiceInterface;
-using MyApp.ServiceInterface.Data;
+using MyApp.Data;
 using ServiceStack.Configuration;
 using ServiceStack.Text;
 

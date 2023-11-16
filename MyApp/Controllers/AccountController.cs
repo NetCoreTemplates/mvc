@@ -5,8 +5,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using MyApp.Extensions;
 using MyApp.Models.AccountViewModels;
-using MyApp.ServiceInterface;
-using MyApp.ServiceInterface.Data;
+using MyApp.Data;
 using ServiceStack.Mvc;
 
 namespace MyApp.Controllers;
