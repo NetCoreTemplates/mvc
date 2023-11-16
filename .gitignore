@@ -6,8 +6,6 @@
 # Custom
 #dist/
 coverage/
-Migrations/
-lib/
 App_Data/
 package-lock.json
 *.sqlite
