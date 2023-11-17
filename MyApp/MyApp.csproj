@@ -6,6 +6,7 @@
     <ImplicitUsings>enable</ImplicitUsings>
     <AspNetCoreHostingModel>InProcess</AspNetCoreHostingModel>
     <TypeScriptCompileBlocked>true</TypeScriptCompileBlocked>
+    <PublishProfile>DefaultContainer</PublishProfile>
   </PropertyGroup>
   <ItemGroup>
     <Using Include="MyApp" />
