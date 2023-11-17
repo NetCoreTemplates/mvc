@@ -450,9 +450,10 @@ public class AccountController : ServiceStackController
 
     [HttpGet]
     [AllowAnonymous]
+    [Route("/Account/Logout")]
     public IActionResult SignedOut()
     {
-        return View();
+        return View("Logout");
     }
 
     #region Helpers
