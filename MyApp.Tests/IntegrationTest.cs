@@ -2,6 +2,7 @@
 using ServiceStack;
 using NUnit.Framework;
 using MyApp.Data;
+using MyApp.ServiceInterface;
 using MyApp.ServiceModel;
 
 namespace MyApp.Tests;
