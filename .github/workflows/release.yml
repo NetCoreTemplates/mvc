@@ -78,6 +78,7 @@ jobs:
           ${{ secrets.APPSETTINGS_PATCH }}
           EOF
           x patch appsettings.json.patch
+          cat appsettings.json
       
       # Build and push new docker image, skip for manual redeploy other than 'latest'
       - name: Build and push Docker image
