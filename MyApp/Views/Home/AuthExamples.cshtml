@@ -27,7 +27,7 @@
         <div class="mx-auto">
             <form asp-area="" asp-controller="Account" asp-action="Logout" method="post">
                 <div class="flex items-center my-4">
-                    <img src="@User.GetProfileUrl()" class="w-8 h-8 mr-2">
+                    <img src="@User.GetPicture()" class="w-8 h-8 mr-2">
                     <div>Hi @User.GetDisplayName()</div>
                 </div>
                 <div>
