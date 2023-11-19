@@ -11,9 +11,6 @@ public class HomeController : ServiceStackController
     public IActionResult Index() => View();
 
     [Authorize]
-    public IActionResult Contacts() => View();
-
-    [Authorize]
     public IActionResult Bookings() => View();
 
     public IActionResult AuthExamples() => View();
