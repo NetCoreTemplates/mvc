@@ -15,8 +15,6 @@ public class HomeController : ServiceStackController
 
     public IActionResult AuthExamples() => View();
 
-    // public IActionResult Privacy() => View();
-
     [Authorize]
     public IActionResult RequiresAuth() => View();
 
