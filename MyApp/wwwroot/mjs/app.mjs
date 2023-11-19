@@ -9,36 +9,8 @@ let AppData = {
 }
 export { client, Apps }
 
-/** Simple inline component examples */
-const Hello = {
-    template: `<b>Hello, {{name}}!</b>`,
-    props: { name:String }
-}
-const Counter = {
-    template: `<b @click="count++">Counter {{count}}</b>`,
-    setup() {
-        let count = ref(1)
-        return { count }
-    }
-}
-const Plugin = {
-    template:`<div>
-        <b @click="show=true">Open Modal</b>
-        <ModalDialog v-if="show" @done="show=false">
-            <div class="p-8">Hello @servicestack/vue!</div>
-        </ModalDialog>
-    </div>`,
-    setup() {
-        const show = ref(false)
-        return { show }
-    }
-}
-
 /** Shared Global Components */
 const Components = {
-    Hello,
-    Counter,
-    Plugin,
     HelloApi,
 }
 const CustomElements = [
@@ -47,10 +19,11 @@ const CustomElements = [
 
 const alreadyMounted = el => el.__vue_app__
 
+const mockArgs = { attrs:{}, slots:{}, emit:() => {}, expose: () => {} }
 function hasTemplate(el,component) {
     return !!(el.firstElementChild
         || component.template
-        || (component.setup && typeof component.setup({}, {}) == 'function'))
+        || (component.setup && typeof component.setup({}, mockArgs) == 'function'))
 }
 
 /** Mount Vue3 Component
