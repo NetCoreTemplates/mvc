@@ -61,7 +61,7 @@
                         var isAuthenticated = await Html.IsAuthenticatedAsync();
                         var isAdmin = await Html.HasRoleAsync("Admin");
 
-                        async Task RenderNavLink(string controller, string action, string childContent, string cls=null)
+                        void RenderNavLink(string controller, string action, string childContent, string? cls=null)
                         {
                             <li class="@Html.ClassNames("relative flex flex-wrap just-fu-start m-0",cls)">
                                 <a asp-controller="@controller" asp-action="@action"
@@ -71,7 +71,7 @@
                             </li>
                         }
 
-                        async Task RenderLinkButton(string controller, string action, string childContent, string? cls = null)
+                        void RenderLinkButton(string controller, string action, string childContent, string? cls = null)
                         {
                             <li class="relative flex flex-wrap just-fu-start m-0">
                                 <a asp-controller="@controller" asp-action="@action" class="@(cls ?? Css.SecondaryButton)">
@@ -80,9 +80,9 @@
                             </li>
                         }
 
-                        await RenderNavLink("Blog", "Index", "Blog", "ml-8 sm:ml-0");
-                        await RenderNavLink("Home", "Bookings", "Bookings");
-                        await RenderNavLink("Home", "AuthExamples", "Auth <span class=\"ml-1 hidden sm:block\">Examples</span>");
+                        RenderNavLink("Blog", "Index", "Blog", "ml-8 sm:ml-0");
+                        RenderNavLink("Home", "Bookings", "Bookings");
+                        RenderNavLink("Home", "AuthExamples", "Auth <span class=\"ml-1 hidden sm:block\">Examples</span>");
                         if (isAdmin)
                         {
                             <li class="relative flex flex-wrap just-fu-start m-0">
@@ -96,12 +96,12 @@
                                 Privacy
                             </a>
                         </li>
-                        await RenderNavLink("Manage", "Index", "Account");
+                        RenderNavLink("Manage", "Index", "Account");
 
                         if (!isAuthenticated)
                         {
-                            await RenderLinkButton("Account", "Login", "Sign In");
-                            await RenderLinkButton("Account", "Register", "Sign Up", $"mx-2 {Css.PrimaryButton}");
+                            RenderLinkButton("Account", "Login", "Sign In");
+                            RenderLinkButton("Account", "Register", "Sign Up", $"mx-2 {Css.PrimaryButton}");
                         }
                         else
                         {
@@ -144,7 +144,7 @@
     <script src="~/lib/js/jquery.js"></script>
 </environment>
 <environment exclude="Development">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.3/jquery.min.js"
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"
             asp-fallback-src="~/lib/js/jquery.min.js"
             asp-fallback-test="window.jQuery"
             crossorigin="anonymous">
