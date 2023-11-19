@@ -21,13 +21,12 @@
                 <a class="@Css.Link" href="https://itunes.apple.com/us/app/google-authenticator/id388497605?mt=8">iOS</a>.
             </p>
         </li>
-        <li>
+        <li class="not-prose">
             <p class="my-2">
-                Scan the QR Code or enter this key <kbd class="bg-gray-100 p-1 px-2 rounded-sm">@Model.SharedKey</kbd> into your two factor authenticator app. Spaces and casing do not matter.
+                Scan the QR Code or enter this key <kbd class="bg-gray-100 dark:bg-gray-700 p-1 px-2 rounded-sm">@Model.SharedKey</kbd> into your two factor authenticator app. Spaces and casing do not matter.
             </p>
-            @await Html.PartialAsync("AlertInfo", $@"<p class=""text-blue-700 text-sm"">
-                Learn how to <a class=""{Css.Link}"" href=""https://go.microsoft.com/fwlink/?Linkid=852423"">enable QR code generation</a>.
-            </p>")
+            @await Html.PartialAsync("AlertInfo",
+                $@"Learn how to <a class=""font-semibold text-indigo-700 hover:text-indigo-500"" href=""https://go.microsoft.com/fwlink/?Linkid=852423"">enable QR code generation</a>.")
 
             <div id="qrCode"></div>
             <div id="qrCodeData" data-url="@Model.AuthenticatorUri"></div>
