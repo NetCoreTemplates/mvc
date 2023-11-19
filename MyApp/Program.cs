@@ -9,11 +9,7 @@ var builder = WebApplication.CreateBuilder(args);
 
 var services = builder.Services;
 var config = builder.Configuration;
-#if DEBUG
-    services.AddMvc(options => options.EnableEndpointRouting = false).AddRazorRuntimeCompilation();
-#else
-    services.AddMvc(options => options.EnableEndpointRouting = false);
-#endif
+services.AddMvc(options => options.EnableEndpointRouting = false);
 
 services.Configure<CookiePolicyOptions>(options =>
 {
