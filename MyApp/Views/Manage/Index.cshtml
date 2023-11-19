@@ -23,12 +23,16 @@
                         </div>
                     </div>                            
                     <div>
-                        <label asp-for="Email" class="block text-sm font-medium text-gray-700 dark:text-gray-300"></label>
+                        <label asp-for="Email" class="@Css.LabelClasses"></label>
                         @if (Model.IsEmailConfirmed)
                         {
                             <div class="input-group">
-                                <input asp-for="Email" class="@Css.InputText">
-                                <span class="input-group-addon" aria-hidden="true"><span class="glyphicon glyphicon-ok text-success"></span></span>
+                                <div class="mt-1 relative flex">
+                                    <input asp-for="Email" class="@Css.InputText">
+                                    <div class="ml-4">
+                                        <span class="text-xl text-success font-bold">✓</span>
+                                    </div>
+                                </div>
                             </div>
                         }
                         else

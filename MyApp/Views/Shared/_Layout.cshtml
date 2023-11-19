@@ -61,7 +61,7 @@
                         var isAuthenticated = await Html.IsAuthenticatedAsync();
                         var isAdmin = await Html.HasRoleAsync("Admin");
 
-                        void RenderNavLink(string controller, string action, string childContent, string? cls=null)
+                        async Task RenderNavLink(string controller, string action, string childContent, string? cls=null)
                         {
                             <li class="@Html.ClassNames("relative flex flex-wrap just-fu-start m-0",cls)">
                                 <a asp-controller="@controller" asp-action="@action"
@@ -71,7 +71,7 @@
                             </li>
                         }
 
-                        void RenderLinkButton(string controller, string action, string childContent, string? cls = null)
+                        async Task RenderLinkButton(string controller, string action, string childContent, string? cls = null)
                         {
                             <li class="relative flex flex-wrap just-fu-start m-0">
                                 <a asp-controller="@controller" asp-action="@action" class="@(cls ?? Css.SecondaryButton)">
@@ -80,9 +80,9 @@
                             </li>
                         }
 
-                        RenderNavLink("Blog", "Index", "Blog", "ml-8 sm:ml-0");
-                        RenderNavLink("Home", "Bookings", "Bookings");
-                        RenderNavLink("Home", "AuthExamples", "Auth <span class=\"ml-1 hidden sm:block\">Examples</span>");
+                        await RenderNavLink("Blog", "Index", "Blog", "ml-8 sm:ml-0");
+                        await RenderNavLink("Home", "Bookings", "Bookings");
+                        await RenderNavLink("Home", "AuthExamples", "Auth <span class=\"ml-1 hidden sm:block\">Examples</span>");
                         if (isAdmin)
                         {
                             <li class="relative flex flex-wrap just-fu-start m-0">
@@ -96,15 +96,28 @@
                                 Privacy
                             </a>
                         </li>
-                        RenderNavLink("Manage", "Index", "Account");
+                        await RenderNavLink("Manage", "Index", "Account");
 
                         if (!isAuthenticated)
                         {
-                            RenderLinkButton("Account", "Login", "Sign In");
-                            RenderLinkButton("Account", "Register", "Sign Up", $"mx-2 {Css.PrimaryButton}");
+                            await RenderLinkButton("Account", "Login", "Sign In");
                         }
                         else
                         {
+                            <li>
+                                <div class="mx-3 relative">
+                                    <div>
+                                        <a asp-controller="Manage" asp-action="Index"
+                                            class="max-w-xs bg-white dark:bg-black rounded-full flex items-center text-sm focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 lg:p-2 lg:rounded-md lg:hover:bg-gray-50 dark:lg:hover:bg-gray-900 dark:ring-offset-black" id="user-menu-button" aria-expanded="false" aria-haspopup="true">
+                                            <img class="h-8 w-8 rounded-full" src=@User.GetPicture() alt="">
+                                            <span class="ml-3 text-gray-700 dark:text-gray-300 text-sm font-medium lg:block">
+                                                <span class="sr-only">Open user menu for </span>
+                                                @User.GetDisplayName()
+                                            </span>
+                                        </a>
+                                    </div>
+                                </div>
+                            </li>
                             <li class="relative flex flex-wrap just-fu-start mr-2">
                                 <form asp-area="" asp-controller="Account" asp-action="Logout" method="post">
                                     <button type="submit" class="@Css.SecondaryButton">Sign Out</button>
@@ -112,7 +125,7 @@
                             </li>
                         }
                     }
-                    <li class="relative flex flex-wrap just-fu-start m-0">
+                    <li class="relative flex flex-wrap just-fu-start ml-2">
                         @await Html.PartialAsync("DarkModeToggle")
                     </li>
                 </ul>
