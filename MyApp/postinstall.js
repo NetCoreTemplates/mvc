@@ -4,9 +4,9 @@ const writeTo = './wwwroot/lib'
 const defaultPrefix = 'https://unpkg.com'
 const files = {
     js: {
-        'jquery.js':                          'https://code.jquery.com/jquery-3.6.3.js',
-        'jquery.min.js':                      'https://code.jquery.com/jquery-3.6.3.min.js',
-        'jquery.min.map':                     'https://code.jquery.com/jquery-3.6.3.min.map',
+        'jquery.js':                          'https://code.jquery.com/jquery-3.7.1.js',
+        'jquery.min.js':                      'https://code.jquery.com/jquery-3.7.1.min.js',
+        'jquery.min.map':                     'https://code.jquery.com/jquery-3.7.1.min.map',
         'jquery.validate.js':                 '/jquery-validation@1/dist/jquery.validate.js',
         'jquery.validate.min.js':             '/jquery-validation@1/dist/jquery.validate.min.js',
         'additional-methods.min.js':          '/jquery-validation@1/dist/additional-methods.min.js',
