@@ -1,24 +1,24 @@
-# mvc-tailwind
+# mvc
 
 .NET 8.0 MVC Website integrated with ServiceStack using ASP.NET Identity Auth
 
-![](https://raw.githubusercontent.com/ServiceStack/Assets/master/csharp-templates/mvc-tailwind.png)
+![](https://raw.githubusercontent.com/ServiceStack/Assets/master/csharp-templates/mvc.png)
 
 > Login
 
-![](https://raw.githubusercontent.com/ServiceStack/Assets/master/csharp-templates/mvc-tailwind-login.png)
+![](https://raw.githubusercontent.com/ServiceStack/Assets/master/csharp-templates/mvc-login.png)
 
-> Browse [source code](https://github.com/NetCoreTemplates/mvc-tailwind) and install with the `web` dotnet tool:
+> Browse [source code](https://github.com/NetCoreTemplates/mvc) and install with the `web` dotnet tool:
 
     $ dotnet tool install -g x
 
-    $ x new mvc-tailwind ProjectName
+    $ x new mvc ProjectName
 
 Alternatively write new project files directly into an empty repository, using the Directory Name as the ProjectName:
 
     $ git clone https://github.com/<User>/<ProjectName>.git
     $ cd <ProjectName>
-    $ x new mvc-tailwind
+    $ x new mvc
 
 ### Database Setup
 
