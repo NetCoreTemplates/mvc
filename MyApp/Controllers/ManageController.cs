@@ -16,7 +16,7 @@ public class ManageController : Controller
 {
     private readonly UserManager<ApplicationUser> _userManager;
     private readonly SignInManager<ApplicationUser> _signInManager;
-    private readonly IEmailSender _emailSender;
+    private readonly IEmailSender<ApplicationUser> _emailSender;
     private readonly ILogger _logger;
     private readonly UrlEncoder _urlEncoder;
 
@@ -26,7 +26,7 @@ public class ManageController : Controller
     public ManageController(
         UserManager<ApplicationUser> userManager,
         SignInManager<ApplicationUser> signInManager,
-        IEmailSender emailSender,
+        IEmailSender<ApplicationUser> emailSender,
         ILogger<ManageController> logger,
         UrlEncoder urlEncoder)
     {
@@ -119,7 +119,7 @@ public class ManageController : Controller
         var code = await _userManager.GenerateEmailConfirmationTokenAsync(user);
         var callbackUrl = Url.EmailConfirmationLink(user.Id, code, Request.Scheme);
         var email = user.Email;
-        await _emailSender.SendEmailConfirmationAsync(email, callbackUrl);
+        await _emailSender.SendConfirmationLinkAsync(user, email, callbackUrl);
 
         StatusMessage = "Verification email sent. Please check your email.";
         return RedirectToAction(nameof(Index));

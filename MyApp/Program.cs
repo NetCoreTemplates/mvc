@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Server.IISIntegration;
 using Microsoft.EntityFrameworkCore;
 using ServiceStack;
 using MyApp.Data;
+using MyApp.ServiceInterface;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -33,6 +34,7 @@ services.AddIdentity<ApplicationUser, IdentityRole>(options => {
     .AddDefaultTokenProviders();
     
 services.AddAuthentication(IISDefaults.AuthenticationScheme)
+    .AddBasicAuth<ApplicationUser>()
     .AddFacebook(options => { /* Create App https://developers.facebook.com/apps */
         options.AppId = config["oauth.facebook.AppId"]!;
         options.AppSecret = config["oauth.facebook.AppSecret"]!;
@@ -89,35 +91,51 @@ services.ConfigureApplicationCookie(options =>
     options.SlidingExpiration = true;
 });
 
-// Add application services.
-services.AddTransient<IEmailSender, EmailSender>();
+services.AddSingleton<IEmailSender<ApplicationUser>, IdentityNoOpEmailSender>();
+// Uncomment to send emails with SMTP, configure SMTP with "SmtpConfig" in appsettings.json
+//services.AddSingleton<IEmailSender<ApplicationUser>, EmailSender>();
 services.AddScoped<IUserClaimsPrincipalFactory<ApplicationUser>, AdditionalUserClaimsPrincipalFactory>();
+
+services.AddEndpointsApiExplorer();
+services.AddSwaggerGen();
+
+// Register all services
+services.AddServiceStack(typeof(MyServices).Assembly, c => {
+    c.AddSwagger(o => {
+        o.AddBasicAuth();
+    });
+});
 
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
-if (!app.Environment.IsDevelopment())
+if (app.Environment.IsDevelopment())
+{
+    app.UseDeveloperExceptionPage();
+    app.UseSwagger();
+    app.UseSwaggerUI();
+}
+else
 {
     app.UseExceptionHandler("/Home/Error");
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
     app.UseHttpsRedirection();
 }
-else
-{
-    app.UseDeveloperExceptionPage();
-}
+
 app.UseStaticFiles();
 app.UseCookiePolicy();
 app.UseAuthentication();
-
-app.UseServiceStack(new AppHost());
 
 app.UseMvc(routes =>
 {
     routes.MapRoute(
         name: "default",
         template: "{controller=Home}/{action=Index}/{id?}");
+});
+
+app.UseServiceStack(new AppHost(), options => {
+    options.MapEndpoints();
 });
 
 app.Run();
