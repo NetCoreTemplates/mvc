@@ -5,11 +5,14 @@ namespace MyApp.Controllers;
 
 public class BlogController(MarkdownBlog blog, IWebHostEnvironment env) : ServiceStackController
 {
+    [HttpGet]
+    [Route("/posts")]
     public IActionResult Index(string? author = null, string? tag = null)
     {
         return View(blog.GetPosts(author, tag));
     }
 
+    [HttpGet]
     [Route("/posts/{slug}")]
     public IActionResult Post(string slug)
     {

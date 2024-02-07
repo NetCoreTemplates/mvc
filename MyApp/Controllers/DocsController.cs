@@ -5,6 +5,7 @@ namespace MyApp.Controllers;
 
 public class DocsController(MarkdownPages markdown, IWebHostEnvironment env) : ServiceStackController
 {
+    [HttpGet]
     [Route("/docs/{slug}")]
     public IActionResult Index(string slug)
     {

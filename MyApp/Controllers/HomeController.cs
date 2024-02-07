@@ -8,19 +8,25 @@ namespace MyApp.Controllers;
 
 public class HomeController : ServiceStackController
 {
+    [HttpGet]
     public IActionResult Index() => View();
 
+    [HttpGet]
     [Authorize]
     public IActionResult Bookings() => View();
 
+    [HttpGet]
     public IActionResult AuthExamples() => View();
 
+    [HttpGet]
     [Authorize]
     public IActionResult RequiresAuth() => View();
 
+    [HttpGet]
     [Authorize(Roles = "Manager")]
     public IActionResult RequiresRole() => View();
 
+    [HttpGet]
     [Authorize(Roles = "Admin")]
     public IActionResult RequiresAdmin() => View();
 

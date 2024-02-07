@@ -34,7 +34,6 @@ services.AddIdentity<ApplicationUser, IdentityRole>(options => {
     .AddDefaultTokenProviders();
     
 services.AddAuthentication(IISDefaults.AuthenticationScheme)
-    .AddBasicAuth<ApplicationUser>()
     .AddFacebook(options => { /* Create App https://developers.facebook.com/apps */
         options.AppId = config["oauth.facebook.AppId"]!;
         options.AppSecret = config["oauth.facebook.AppSecret"]!;
@@ -96,15 +95,8 @@ services.AddSingleton<IEmailSender<ApplicationUser>, IdentityNoOpEmailSender>();
 //services.AddSingleton<IEmailSender<ApplicationUser>, EmailSender>();
 services.AddScoped<IUserClaimsPrincipalFactory<ApplicationUser>, AdditionalUserClaimsPrincipalFactory>();
 
-services.AddEndpointsApiExplorer();
-services.AddSwaggerGen();
-
 // Register all services
-services.AddServiceStack(typeof(MyServices).Assembly, c => {
-    c.AddSwagger(o => {
-        o.AddBasicAuth();
-    });
-});
+services.AddServiceStack(typeof(MyServices).Assembly);
 
 var app = builder.Build();
 
@@ -112,8 +104,6 @@ var app = builder.Build();
 if (app.Environment.IsDevelopment())
 {
     app.UseDeveloperExceptionPage();
-    app.UseSwagger();
-    app.UseSwaggerUI();
 }
 else
 {
