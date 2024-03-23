@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Identity;
 using ServiceStack;
 using ServiceStack.Auth;
 using MyApp.Data;
-using ServiceStack.Configuration;
 using ServiceStack.Text;
 
 [assembly: HostingStartup(typeof(MyApp.ConfigureAuth))]
@@ -16,10 +15,8 @@ public class ConfigureAuth : IHostingStartup
         .ConfigureServices(services => {
             services.AddSingleton<IAuthHttpGateway, AuthHttpGateway>();
             services.AddTransient<IExternalLoginAuthInfoProvider, ExternalLoginAuthInfoProvider>();
-        })
-        .ConfigureAppHost(appHost => 
-        {
-            appHost.Plugins.Add(new AuthFeature(IdentityAuth.For<ApplicationUser>(options => {
+            
+            services.AddPlugin(new AuthFeature(IdentityAuth.For<ApplicationUser>(options => {
                 options.SessionFactory = () => new CustomUserSession();
                 options.CredentialsAuth();
                 options.AdminUsersFeature();
