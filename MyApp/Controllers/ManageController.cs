@@ -322,6 +322,12 @@ public class ManageController : Controller
     }
 
     [HttpGet]
+    public async Task<IActionResult> ApiKeys()
+    {
+        return View();
+    }
+
+    [HttpGet]
     public async Task<IActionResult> Disable2faWarning()
     {
         var user = await _userManager.GetUserAsync(User);

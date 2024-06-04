@@ -21,4 +21,10 @@
     <li class="@ManageNavPages.TwoFactorAuthenticationNavClass(ViewContext)">
         <a class="@navItemCss" asp-action="TwoFactorAuthentication">Two-factor authentication</a>
     </li>
+    @if (HostContext.AppHost.HasPlugin<ApiKeysFeature>())
+    {
+        <li class="@ManageNavPages.ApiKeysNavClass(ViewContext)">
+            <a class="@navItemCss" asp-action="ApiKeys">API Keys</a>
+        </li>
+    }
 </ul>
