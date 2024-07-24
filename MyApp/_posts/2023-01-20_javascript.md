@@ -222,7 +222,7 @@ client.api(new Hello({ name }))
 ```
 
 You'll typically use all these libraries in your **API-enabled** components as seen in the 
-[HelloApi.mjs](https://github.com/NetCoreTemplates/mvc-tailwind/blob/main/MyApp/wwwroot/mjs/components/HelloApi.mjs)
+[HelloApi.mjs](https://github.com/NetCoreTemplates/mvc/blob/main/MyApp/wwwroot/mjs/components/HelloApi.mjs)
 component on the home page which calls the [Hello](/ui/Hello) API on each key press:
 
 ```js
