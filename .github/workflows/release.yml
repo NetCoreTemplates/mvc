@@ -76,7 +76,17 @@ jobs:
           driver-opts: image=moby/buildkit:master
 
       - name: Kamal bootstrap
-        run: kamal setup -P
+        run: kamal server bootstrap
+
+      - name: Check if first run and execute kamal app boot if necessary
+        run: |
+          FIRST_RUN_FILE=".${{ env.repository_name }}"
+          if ! kamal server exec --no-interactive -q "test -f $FIRST_RUN_FILE"; then
+            kamal server exec --no-interactive -q "touch $FIRST_RUN_FILE" || true
+            kamal deploy -q -P --version latest || true
+          else
+            echo "Not first run, skipping kamal app boot"
+          fi
 
       - name: Ensure file permissions
         run: kamal server exec --no-interactive "mkdir -p /opt/docker/${{ env.repository_name }}/App_Data && chown -R 1654:1654 /opt/docker/${{ env.repository_name }}"
