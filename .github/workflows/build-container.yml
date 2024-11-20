@@ -5,6 +5,9 @@ permissions:
 on:
   workflow_run:
     workflows: ["Build"]
+    branches:
+      - main
+      - master
     types:
       - completed
   workflow_dispatch:
