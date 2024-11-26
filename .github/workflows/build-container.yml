@@ -10,9 +10,6 @@ on:
       - master
     types:
       - completed
-    branches:
-      - main
-      - master
   workflow_dispatch:
 
 env:
