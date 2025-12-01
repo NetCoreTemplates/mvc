@@ -1,6 +1,6 @@
 # mvc
 
-.NET 8.0 MVC Website integrated with ServiceStack using ASP.NET Identity Auth
+.NET 10.0 MVC Website integrated with ServiceStack using ASP.NET Identity Auth
 
 ![](https://raw.githubusercontent.com/ServiceStack/Assets/master/csharp-templates/mvc.png)
 
@@ -8,24 +8,24 @@
 
 ![](https://raw.githubusercontent.com/ServiceStack/Assets/master/csharp-templates/mvc-login.png)
 
-> Browse [source code](https://github.com/NetCoreTemplates/mvc) and install with the `web` dotnet tool:
+> Browse [source code](https://github.com/NetCoreTemplates/mvc) and install with:
 
-    $ dotnet tool install -g x
+```bash
+npx create-net mvc ProjectName
+```
 
-    $ x new mvc ProjectName
+## Jumpstart with Copilot
 
-Alternatively write new project files directly into an empty repository, using the Directory Name as the ProjectName:
-
-    $ git clone https://github.com/<User>/<ProjectName>.git
-    $ cd <ProjectName>
-    $ x new mvc
+Instantly [scaffold a new App with this template](https://github.com/new?template_name=mvc&template_owner=NetCoreTemplates) using GitHub Copilot, just describe the features you want and watch Copilot build it!
 
 ### Database Setup
 
 To create the User and Auth tables change the `"DefaultConnection"` connection string in `appsettings.json` then run the ef .NET Core tool:
 
-    $ dotnet ef migrations add CreateIdentitySchema
-    $ dotnet ef database update
+```bash
+dotnet ef migrations add CreateIdentitySchema
+dotnet ef database update
+```
 
 If needed, you can re-create your DB schema after modifying your custom `ApplicationUser` class with additional info you want to store on each user, by deleting the `__EFMigrationHistory` and all `AspNet*` tables, deleting the `Migrations` folder in your host projects and re-running the above commands.
 
