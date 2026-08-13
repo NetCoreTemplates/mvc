@@ -1,6 +1,6 @@
 import { PatchFlags } from '@vue/shared';
 export { generateCodeFrame } from '@vue/shared';
-import { Node as Node$1, Identifier, Function, BlockStatement as BlockStatement$1, SwitchCase, Program, ObjectProperty } from '@babel/types';
+import { Node as Node$1, Identifier, Function, ObjectProperty, BlockStatement as BlockStatement$1, SwitchCase, Program } from '@babel/types';
 import { ParserPlugin } from '@babel/parser';
 
 export declare const FRAGMENT: unique symbol;
@@ -122,6 +122,7 @@ export interface TransformContext extends Required<Omit<TransformOptions, keyof 
     hoist(exp: string | JSChildNode | ArrayExpression): SimpleExpressionNode;
     cache(exp: JSChildNode, isVNode?: boolean, inVOnce?: boolean): CacheExpression;
     constantCache: WeakMap<TemplateChildNode, ConstantTypes>;
+    vForMemoKeyedNodes: WeakSet<ElementNode>;
     filters?: Set<string>;
 }
 export declare function createTransformContext(root: RootNode, { filename, prefixIdentifiers, hoistStatic, hmr, cacheHandlers, nodeTransforms, directiveTransforms, transformHoist, isBuiltInComponent, isCustomElement, expressionPlugins, scopeId, slotted, ssr, inSSR, ssrCssVars, bindingMetadata, inline, isTS, onError, onWarn, compatConfig, }: TransformOptions): TransformContext;
@@ -138,6 +139,8 @@ export declare function buildProps(node: ElementNode, context: TransformContext,
     patchFlag: number;
     dynamicPropNames: string[];
     shouldUseBlock: boolean;
+    needsPatch: boolean;
+    isBlockRequired: boolean;
 };
 export declare function buildDirectiveArgs(dir: DirectiveNode, context: TransformContext): ArrayExpression;
 
@@ -375,6 +378,10 @@ export interface VNodeCall extends Node {
     patchFlag: PatchFlags | undefined;
     dynamicProps: string | SimpleExpressionNode | undefined;
     directives: DirectiveArguments | undefined;
+    /** Whether this vnode must be patched if a later transform makes it non-block. */
+    needsPatch?: boolean;
+    /** Whether a later transform must preserve this vnode as a block. */
+    isBlockRequired?: boolean;
     isBlock: boolean;
     disableTracking: boolean;
     isComponent: boolean;
@@ -473,11 +480,24 @@ export interface DirectiveArgumentNode extends ArrayExpression {
 }
 export interface RenderSlotCall extends CallExpression {
     callee: typeof RENDER_SLOT;
-    arguments: [string, string | ExpressionNode] | [string, string | ExpressionNode, PropsExpression] | [
+    arguments: [string, string | ExpressionNode] | [string, string | ExpressionNode, PropsExpression | '{}'] | [
         string,
         string | ExpressionNode,
         PropsExpression | '{}',
-        TemplateChildNode[]
+        FunctionExpression | string
+    ] | [
+        string,
+        string | ExpressionNode,
+        PropsExpression | '{}',
+        FunctionExpression | string,
+        string
+    ] | [
+        string,
+        string | ExpressionNode,
+        PropsExpression | '{}',
+        FunctionExpression | string,
+        string,
+        JSChildNode
     ];
 }
 export type SlotsExpression = SlotsObjectExpression | DynamicSlotsExpression;
@@ -615,15 +635,16 @@ export declare enum ErrorCodes {
     X_V_MODEL_MALFORMED_EXPRESSION = 42,
     X_V_MODEL_ON_SCOPE_VARIABLE = 43,
     X_V_MODEL_ON_PROPS = 44,
-    X_INVALID_EXPRESSION = 45,
-    X_KEEP_ALIVE_INVALID_CHILDREN = 46,
-    X_PREFIX_ID_NOT_SUPPORTED = 47,
-    X_MODULE_MODE_NOT_SUPPORTED = 48,
-    X_CACHE_HANDLER_NOT_SUPPORTED = 49,
-    X_SCOPE_ID_NOT_SUPPORTED = 50,
-    X_VNODE_HOOKS = 51,
-    X_V_BIND_INVALID_SAME_NAME_ARGUMENT = 52,
-    __EXTEND_POINT__ = 53
+    X_V_MODEL_ON_CONST = 45,
+    X_INVALID_EXPRESSION = 46,
+    X_KEEP_ALIVE_INVALID_CHILDREN = 47,
+    X_PREFIX_ID_NOT_SUPPORTED = 48,
+    X_MODULE_MODE_NOT_SUPPORTED = 49,
+    X_CACHE_HANDLER_NOT_SUPPORTED = 50,
+    X_SCOPE_ID_NOT_SUPPORTED = 51,
+    X_VNODE_HOOKS = 52,
+    X_V_BIND_INVALID_SAME_NAME_ARGUMENT = 53,
+    __EXTEND_POINT__ = 54
 }
 export declare const errorMessages: Record<ErrorCodes, string>;
 
@@ -947,7 +968,7 @@ export type CompilerOptions = ParserOptions & TransformOptions & CodegenOptions;
  *
  * Since TS 5.3, dts generation starts to strangely include broken triple slash
  * references for source-map-js, so we are inlining all source map related types
- * here to to workaround that.
+ * here to workaround that.
  */
 export interface CodegenSourceMapGenerator {
     setSourceContent(sourceFile: string, sourceContent: string): void;
